@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Tracker - À propos</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/pages-pro.css">
+    <link rel="stylesheet" href="css/auth-modal.css">
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body style="background: #f8fafc;">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-plane-departure me-2"></i>Flight Tracker
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i>Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about.html"><i class="fas fa-info-circle me-1"></i>À propos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="passengers.html"><i class="fas fa-users me-1"></i>Passagers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html"><i class="fas fa-envelope me-1"></i>Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-outline-light ms-2" data-bs-toggle="modal" data-bs-target="#authModal">
+                            <i class="fas fa-sign-in-alt me-1"></i>Connexion
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header Pro with Creative Design -->
+    <header class="page-header-pro position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.95) 0%, rgba(102, 16, 242, 0.95) 100%), url('images/flight/tunisair-fleet.jpeg') center/cover;">
+        <div class="cloud-decoration" style="top: 30%; left: 8%; opacity: 0.2;"></div>
+        <div class="cloud-decoration" style="top: 50%; right: 12%; opacity: 0.15;"></div>
+        <div class="container position-relative py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-7 page-transition">
+                    <nav class="breadcrumb mb-3" style="background: transparent;">
+                        <a class="breadcrumb-item text-white-50" href="index.html"><i class="fas fa-home me-1"></i>Accueil</a>
+                        <span class="breadcrumb-item active text-white">À propos</span>
+                    </nav>
+                    <div class="passport-stamp d-inline-block mb-3" style="border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.1);">
+                        <span class="text-white fw-bold">FLIGHT TRACKER ✈</span>
+                    </div>
+                    <h1 class="display-5 fw-bold text-white mb-3">
+                        <i class="fas fa-building me-3 text-warning"></i>À propos de Flight Tracker
+                    </h1>
+                    <p class="lead text-white-50 mb-4">Votre partenaire de confiance pour le suivi des vols et les voyages depuis 2020</p>
+                    
+                    <!-- Flight Status Badges -->
+                    <div class="d-flex gap-2 flex-wrap">
+                        <span class="flight-status on-time"><i class="fas fa-check-circle"></i> Certifié</span>
+                        <span class="flight-status in-flight"><i class="fas fa-globe"></i> International</span>
+                    </div>
+                </div>
+                <div class="col-lg-5 text-center d-none d-lg-block page-transition">
+                    <div class="position-relative">
+                        <img src="images/flight/airplane-sky-1.jpeg" alt="Avion" class="img-fluid rounded-4 shadow-lg" style="max-height: 250px;">
+                        <div class="flight-status in-flight position-absolute" style="bottom: -10px; left: 50%; transform: translateX(-50%);">
+                            <i class="fas fa-plane"></i> En service 24/7
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="py-5">
+        <div class="container">
+            
+            <!-- Notre Société -->
+            <section class="mb-5">
+                <div class="card-pro">
+                    <div class="card-header-pro">
+                        <h5><i class="fas fa-building me-2"></i>🏢 Notre Société</h5>
+                    </div>
+                    <div class="card-body-pro">
+                        <div class="row align-items-center g-4">
+                            <div class="col-lg-7">
+                                <p class="lead mb-4">
+                                    <strong>Flight Tracker</strong> est une société innovante spécialisée dans le domaine du 
+                                    <strong>transport aérien</strong> et des <strong>services de voyage</strong>.
+                                </p>
+                                <p class="text-muted mb-4">
+                                    Fondée avec la passion de rendre le voyage plus accessible et transparent, 
+                                    nous offrons des solutions modernes pour suivre vos vols en temps réel. 
+                                    Notre mission est de fournir aux voyageurs et aux professionnels de l'aviation 
+                                    des outils performants.
+                                </p>
+                                <div class="row g-3">
+                                    <div class="col-sm-6">
+                                        <div class="d-flex align-items-center p-3 rounded-3" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);">
+                                            <i class="fas fa-check-circle text-success fs-4 me-3"></i>
+                                            <span class="fw-semibold">Suivi temps réel mondial</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="d-flex align-items-center p-3 rounded-3" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);">
+                                            <i class="fas fa-check-circle text-success fs-4 me-3"></i>
+                                            <span class="fw-semibold">Gestion des passagers</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="d-flex align-items-center p-3 rounded-3" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);">
+                                            <i class="fas fa-check-circle text-success fs-4 me-3"></i>
+                                            <span class="fw-semibold">Infos destinations</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="d-flex align-items-center p-3 rounded-3" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(8, 145, 178, 0.1) 100%);">
+                                            <i class="fas fa-check-circle text-success fs-4 me-3"></i>
+                                            <span class="fw-semibold">Support 24/7</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <img src="images/flight/tunisair-fleet.jpeg" alt="Flotte Tunisair" class="img-fluid rounded-4 shadow-lg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Nos Services -->
+            <section class="mb-5">
+                <div class="section-title">
+                    <span class="badge-label"><i class="fas fa-concierge-bell me-2"></i>Services</span>
+                    <h2>✈️ Nos Services Premium</h2>
+                    <p>Des solutions complètes pour tous vos besoins en matière de voyage aérien</p>
+                </div>
+                
+                <div class="row g-4">
+                    <div class="col-lg-4">
+                        <div class="service-card">
+                            <div class="service-icon primary">
+                                <i class="fas fa-radar"></i>
+                            </div>
+                            <h5>Suivi de Vols</h5>
+                            <p>Suivez n'importe quel vol en temps réel avec des informations précises sur la position, l'altitude, la vitesse et l'heure d'arrivée estimée.</p>
+                            <ul class="list-unstyled text-start mt-3">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Position en temps réel</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Données de vol précises</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Alertes automatiques</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="service-card">
+                            <div class="service-icon success">
+                                <i class="fas fa-suitcase-rolling"></i>
+                            </div>
+                            <h5>Organisation de Voyages</h5>
+                            <p>Planifiez vos voyages avec nos services complets de réservation, conseils personnalisés et assistance disponible 24h/24.</p>
+                            <ul class="list-unstyled text-start mt-3">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Réservation simplifiée</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Conseils personnalisés</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Support continu</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="service-card">
+                            <div class="service-icon info">
+                                <i class="fas fa-users-cog"></i>
+                            </div>
+                            <h5>Gestion Passagers</h5>
+                            <p>Solutions professionnelles pour les compagnies aériennes avec gestion des listes, enregistrement en ligne et rapports détaillés.</p>
+                            <ul class="list-unstyled text-start mt-3">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Gestion centralisée</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Check-in en ligne</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Rapports analytics</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pourquoi Nous Choisir -->
+            <section class="mb-5">
+                <div class="section-title">
+                    <span class="badge-label"><i class="fas fa-star me-2"></i>Avantages</span>
+                    <h2>⭐ Pourquoi Choisir Flight Tracker ?</h2>
+                    <p>Des outils puissants pour suivre vos vols en temps réel</p>
+                </div>
+                
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <img src="images/flight/tunisair-boeing-1.jpeg" class="card-img-top" alt="Temps Réel" style="height: 150px; object-fit: cover;">
+                            <div class="card-body text-center p-4">
+                                <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <i class="fas fa-clock fa-lg"></i>
+                                </div>
+                                <h5 class="card-title">Temps Réel</h5>
+                                <p class="card-text text-muted small">Données actualisées en permanence pour un suivi précis</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <img src="images/flight/aviation-ai.jpeg" class="card-img-top" alt="Fiabilité" style="height: 150px; object-fit: cover;">
+                            <div class="card-body text-center p-4">
+                                <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <i class="fas fa-shield-alt fa-lg"></i>
+                                </div>
+                                <h5 class="card-title">Fiabilité</h5>
+                                <p class="card-text text-muted small">Sources vérifiées et données sécurisées</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <img src="images/flight/flight-route.jpeg" class="card-img-top" alt="Mondial" style="height: 150px; object-fit: cover;">
+                            <div class="card-body text-center p-4">
+                                <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <i class="fas fa-globe fa-lg"></i>
+                                </div>
+                                <h5 class="card-title">Mondial</h5>
+                                <p class="card-text text-muted small">Couverture internationale complète</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <img src="images/flight/flight-attendant-service.jpeg" class="card-img-top" alt="Support" style="height: 150px; object-fit: cover;">
+                            <div class="card-body text-center p-4">
+                                <div class="bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <i class="fas fa-headset fa-lg"></i>
+                                </div>
+                                <h5 class="card-title">Support 24/7</h5>
+                                <p class="card-text text-muted small">Toujours à votre service</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Notre Équipe -->
+            <section class="mb-5">
+                <div class="section-title">
+                    <span class="badge-label"><i class="fas fa-users me-2"></i>Équipe</span>
+                    <h2>👥 Notre Équipe d'Experts</h2>
+                    <p>Des professionnels passionnés au service de votre expérience de voyage</p>
+                </div>
+                
+                <div class="row g-4">
+                    <div class="col-lg-4">
+                        <div class="team-card">
+                            <div class="team-img">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="CEO">
+                            </div>
+                            <div class="team-body">
+                                <h5>Ahmed Ben Ali</h5>
+                                <p class="role">Directeur Général</p>
+                                <p>Expert en aviation avec plus de 15 ans d'expérience dans le secteur aérien international.</p>
+                                <div class="social-links">
+                                    <a href="mailto:raslen.2907@gmail.com"><i class="fas fa-envelope"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="team-card">
+                            <div class="team-img">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="CTO">
+                            </div>
+                            <div class="team-body">
+                                <h5>Sarah Mansour</h5>
+                                <p class="role">Directrice Technique</p>
+                                <p>Spécialiste en développement web et intégration d'APIs avec une passion pour l'innovation.</p>
+                                <div class="social-links">
+                                    <a href="mailto:raslen.2907@gmail.com"><i class="fas fa-envelope"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="team-card">
+                            <div class="team-img">
+                                <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="COO">
+                            </div>
+                            <div class="team-body">
+                                <h5>Mohamed Salah</h5>
+                                <p class="role">Responsable Opérations</p>
+                                <p>Gestionnaire expérimenté en logistique et service client avec un focus sur l'excellence.</p>
+                                <div class="social-links">
+                                    <a href="mailto:raslen.2907@gmail.com"><i class="fas fa-envelope"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistiques -->
+            <section class="mb-5">
+                <div class="row g-4">
+                    <div class="col-md-3 col-6">
+                        <div class="stat-card-enhanced primary">
+                            <div class="stat-content">
+                                <i class="fas fa-plane stat-icon text-primary"></i>
+                                <h2>10K+</h2>
+                                <p>Vols Suivis/Jour</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="stat-card-enhanced success">
+                            <div class="stat-content">
+                                <i class="fas fa-users stat-icon text-success"></i>
+                                <h2>50K+</h2>
+                                <p>Utilisateurs Actifs</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="stat-card-enhanced warning">
+                            <div class="stat-content">
+                                <i class="fas fa-globe stat-icon text-warning"></i>
+                                <h2>195</h2>
+                                <p>Pays Couverts</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="stat-card-enhanced info">
+                            <div class="stat-content">
+                                <i class="fas fa-smile stat-icon text-info"></i>
+                                <h2>99%</h2>
+                                <p>Satisfaction Client</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Nos Partenaires -->
+            <section class="mb-5">
+                <div class="section-title">
+                    <span class="badge-label"><i class="fas fa-handshake me-2"></i>Partenaires</span>
+                    <h2> Nos Partenaires de Confiance</h2>
+                </div>
+                
+                <div class="row g-4 justify-content-center">
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="partner-item">
+                            <i class="fas fa-plane-arrival"></i>
+                            <p>AirFrance</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="partner-item">
+                            <i class="fas fa-plane"></i>
+                            <p>Emirates</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="partner-item">
+                            <i class="fas fa-jet-fighter"></i>
+                            <p>Lufthansa</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="partner-item">
+                            <i class="fas fa-helicopter"></i>
+                            <p>Qatar Airways</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="partner-item">
+                            <i class="fas fa-plane-departure"></i>
+                            <p>Tunisair</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA Final -->
+            <section>
+                <div class="cta-section text-center">
+                    <h3 class="mb-3"> Prêt à Commencer ?</h3>
+                    <p class="mb-4">Rejoignez des milliers de voyageurs qui font confiance à Flight Tracker</p>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <a href="dashboard.html" class="btn btn-warning btn-lg px-4">
+                            <i class="fas fa-tachometer-alt me-2"></i>Accéder au Dashboard
+                        </a>
+                        <a href="contact.html" class="btn btn-outline-light btn-lg px-4">
+                            <i class="fas fa-envelope me-2"></i>Nous Contacter
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <!-- Auth Modal -->
+    <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 bg-transparent position-absolute end-0 top-0 p-3">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="row g-0">
+                        <!-- Left Panel - Illustration -->
+                        <div class="col-lg-5 d-none d-lg-block">
+                            <div class="auth-illustration h-100 d-flex flex-column justify-content-center align-items-center text-white p-4">
+                                <div class="text-center">
+                                    <div class="auth-icon mb-4">
+                                        <i class="fas fa-plane-departure fa-4x"></i>
+                                    </div>
+                                    <h3 class="fw-bold mb-3">Bienvenue!</h3>
+                                    <p class="mb-4">Accédez à votre tableau de bord pour suivre les vols en temps réel</p>
+                                    <div class="floating-elements">
+                                        <div class="float-element float-1"><i class="fas fa-cloud"></i></div>
+                                        <div class="float-element float-2"><i class="fas fa-globe"></i></div>
+                                        <div class="float-element float-3"><i class="fas fa-route"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Panel - Forms -->
+                        <div class="col-lg-7">
+                            <div class="auth-forms p-4 p-lg-5">
+                                <!-- Sign In Form -->
+                                <div id="signInForm" class="auth-form">
+                                    <div class="text-center mb-4">
+                                        <h4 class="fw-bold">Connexion</h4>
+                                        <p class="text-muted">Accédez à votre espace personnel</p>
+                                    </div>
+                                    <form novalidate>
+                                        <div class="mb-3">
+                                            <div class="input-group input-group-lg">
+                                                <span class="input-group-text bg-light border-0"><i class="fas fa-envelope text-primary"></i></span>
+                                                <input type="email" class="form-control border-0 bg-light" placeholder="Adresse email" required>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="input-group input-group-lg">
+                                                <span class="input-group-text bg-light border-0"><i class="fas fa-lock text-primary"></i></span>
+                                                <input type="password" class="form-control border-0 bg-light" placeholder="Mot de passe" required>
+                                                <button class="btn btn-outline-secondary border-0 bg-light" type="button" id="togglePassword">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="rememberMe">
+                                                <label class="form-check-label" for="rememberMe">
+                                                    Se souvenir de moi
+                                                </label>
+                                            </div>
+                                            <a href="#" class="text-primary text-decoration-none">Mot de passe oublié?</a>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
+                                            <i class="fas fa-sign-in-alt me-2"></i>Se connecter
+                                        </button>
+                                        <div class="text-center">
+                                            <span class="text-muted">Pas encore de compte?</span>
+                                            <a href="#" class="text-primary text-decoration-none" id="showSignUp">S'inscrire</a>
+                                        </div>
+                                    </form>
+                                    <div class="divider my-4">
+                                        <span class="bg-white px-3 text-muted">ou</span>
+                                    </div>
+                                    <div class="social-login">
+                                        <button class="btn btn-outline-primary btn-lg w-100 mb-2">
+                                            <i class="fab fa-google me-2"></i>Continuer avec Google
+                                        </button>
+                                        <button class="btn btn-outline-primary btn-lg w-100">
+                                            <i class="fab fa-facebook-f me-2"></i>Continuer avec Facebook
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Sign Up Form -->
+                                <div id="signUpForm" class="auth-form" style="display: none;">
+                                    <div class="text-center mb-4">
+                                        <h4 class="fw-bold">Inscription</h4>
+                                        <p class="text-muted">Créez votre compte gratuitement</p>
+                                    </div>
+                                    <form novalidate>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <div class="input-group input-group-lg">
+                                                    <span class="input-group-text bg-light border-0"><i class="fas fa-user text-primary"></i></span>
+                                                    <input type="text" class="form-control border-0 bg-light" placeholder="Prénom" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <div class="input-group input-group-lg">
+                                                    <span class="input-group-text bg-light border-0"><i class="fas fa-user text-primary"></i></span>
+                                                    <input type="text" class="form-control border-0 bg-light" placeholder="Nom" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="input-group input-group-lg">
+                                                <span class="input-group-text bg-light border-0"><i class="fas fa-envelope text-primary"></i></span>
+                                                <input type="email" class="form-control border-0 bg-light" placeholder="Adresse email" required>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="input-group input-group-lg">
+                                                <span class="input-group-text bg-light border-0"><i class="fas fa-lock text-primary"></i></span>
+                                                <input type="password" class="form-control border-0 bg-light" placeholder="Mot de passe" required>
+                                                <button class="btn btn-outline-secondary border-0 bg-light" type="button" id="togglePasswordSignUp">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="input-group input-group-lg">
+                                                <span class="input-group-text bg-light border-0"><i class="fas fa-lock text-primary"></i></span>
+                                                <input type="password" class="form-control border-0 bg-light" placeholder="Confirmer le mot de passe" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-check mb-4">
+                                            <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                            <label class="form-check-label" for="agreeTerms">
+                                                J'accepte les <a href="#" class="text-primary">conditions d'utilisation</a> et la <a href="#" class="text-primary">politique de confidentialité</a>
+                                            </label>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
+                                            <i class="fas fa-user-plus me-2"></i>S'inscrire
+                                        </button>
+                                        <div class="text-center">
+                                            <span class="text-muted">Déjà un compte?</span>
+                                            <a href="#" class="text-primary text-decoration-none" id="showSignIn">Se connecter</a>
+                                        </div>
+                                    </form>
+                                    <div class="divider my-4">
+                                        <span class="bg-white px-3 text-muted">ou</span>
+                                    </div>
+                                    <div class="social-login">
+                                        <button class="btn btn-outline-primary btn-lg w-100 mb-2">
+                                            <i class="fab fa-google me-2"></i>S'inscrire avec Google
+                                        </button>
+                                        <button class="btn btn-outline-primary btn-lg w-100">
+                                            <i class="fab fa-facebook-f me-2"></i>S'inscrire avec Facebook
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Pro -->
+    <footer class="footer-pro">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h5><i class="fas fa-plane-departure me-2 text-warning"></i>Flight Tracker</h5>
+                    <p>Votre partenaire de confiance pour le suivi des vols en temps réel et la gestion des voyages.</p>
+                </div>
+                <div class="col-lg-2 col-md-4">
+                    <h5>Navigation</h5>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i>Accueil</a></li>
+                        <li><a href="about.html"><i class="fas fa-chevron-right"></i>À propos</a></li>
+                        <li><a href="dashboard.html"><i class="fas fa-chevron-right"></i>Dashboard</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i>Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <h5>Contact</h5>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope me-2 text-warning"></i>raslen.2907@gmail.com</li>
+                        <li><i class="fas fa-phone me-2 text-warning"></i>+216 56 749 482</li>
+                        <li><i class="fas fa-map-marker-alt me-2 text-warning"></i>Sousse, Tunisie</li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <h5>Technologies</h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge bg-primary">HTML5</span>
+                        <span class="badge bg-info">CSS3</span>
+                        <span class="badge" style="background: #7952b3;">Bootstrap</span>
+                        <span class="badge bg-warning text-dark">JavaScript</span>
+                        <span class="badge bg-success">APIs</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom text-center">
+                <p class="mb-0">&copy; 2025 Flight Tracker. Tous droits réservés. | Projet Académique - Développé avec ❤️</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/auth-modal.js"></script>
+</body>
+</html>

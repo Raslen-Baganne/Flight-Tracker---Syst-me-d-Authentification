@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Tracker - Documentation Technique</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .code-block {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+        .code-block .keyword { color: #569cd6; }
+        .code-block .string { color: #ce9178; }
+        .code-block .function { color: #dcdcaa; }
+        .code-block .comment { color: #6a9955; }
+        .code-block .variable { color: #9cdcfe; }
+        .tech-badge {
+            font-size: 1rem;
+            padding: 8px 15px;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            .card { break-inside: avoid; }
+            body { font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top no-print">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-plane-departure me-2"></i>Flight Tracker
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i>Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html"><i class="fas fa-info-circle me-1"></i>À propos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="passengers.html"><i class="fas fa-users me-1"></i>Passagers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html"><i class="fas fa-envelope me-1"></i>Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header bg-primary text-white py-5" style="background-image: linear-gradient(rgba(13, 110, 253, 0.9), rgba(13, 110, 253, 0.95)), url('images/flight/tunisair-news.jpeg'); background-size: cover; background-position: center;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-5 fw-bold mb-3">
+                        <i class="fas fa-file-code me-3"></i>Documentation Technique
+                    </h1>
+                    <p class="lead mb-0">Technologies, APIs et techniques JavaScript utilisées dans le projet</p>
+                </div>
+                <div class="col-lg-4 text-end no-print">
+                    <button onclick="window.print()" class="btn btn-warning btn-lg">
+                        <i class="fas fa-print me-2"></i>Imprimer / PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="py-5">
+        <div class="container">
+            <!-- Introduction -->
+            <section class="mb-5">
+                <div class="card border-0 shadow">
+                    <div class="card-header bg-dark text-white">
+                        <h3 class="mb-0"><i class="fas fa-book me-2"></i>📋 Introduction</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="lead">
+                            Ce document présente la documentation technique complète du projet <strong>Flight & Passengers Tracker</strong>.
+                            Il détaille les technologies utilisées, les APIs intégrées, les techniques JavaScript employées et l'architecture du projet.
+                        </p>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <h5><i class="fas fa-info-circle text-primary me-2"></i>Informations du Projet</h5>
+                                <ul class="list-unstyled">
+                                    <li><strong>Nom :</strong> Flight & Passengers Tracker</li>
+                                    <li><strong>Version :</strong> 1.0.0</li>
+                                    <li><strong>Date :</strong> Décembre 2025</li>
+                                    <li><strong>Type :</strong> Application Web Frontend</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5><i class="fas fa-folder-open text-success me-2"></i>Structure du Projet</h5>
+                                <div class="code-block">
+<pre>projectTP/
+├── index.html          <span class="comment"># Page d'accueil</span>
+├── about.html          <span class="comment"># À propos</span>
+├── dashboard.html      <span class="comment"># Dashboard</span>
+├── passengers.html     <span class="comment"># Passagers</span>
+├── contact.html        <span class="comment"># Contact</span>
+├── documentation.html  <span class="comment"># Cette page</span>
+├── css/
+│   └── style.css       <span class="comment"># Styles</span>
+└── js/
+    ├── main.js         <span class="comment"># Scripts communs</span>
+    ├── dashboard.js    <span class="comment"># Dashboard</span>
+    ├── passengers.js   <span class="comment"># Passagers</span>
+    └── contact.js      <span class="comment"># Validation</span></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Technologies Frontend -->
+            <section class="mb-5">
+                <h2 class="fw-bold mb-4"><i class="fas fa-code me-2"></i>💻 Technologies Frontend</h2>
+                <div class="row g-4">
+                    <!-- HTML5 -->
+                    <div class="col-lg-6">
+                        <div class="card h-100 border-danger">
+                            <div class="card-header bg-danger text-white">
+                                <h5 class="mb-0"><i class="fab fa-html5 me-2"></i>HTML5</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Rôle :</strong> Structure sémantique du site web</p>
+                                <h6>Balises sémantiques utilisées :</h6>
+                                <ul>
+                                    <li><code>&lt;header&gt;</code> - En-tête de page</li>
+                                    <li><code>&lt;nav&gt;</code> - Navigation</li>
+                                    <li><code>&lt;main&gt;</code> - Contenu principal</li>
+                                    <li><code>&lt;section&gt;</code> - Sections thématiques</li>
+                                    <li><code>&lt;footer&gt;</code> - Pied de page</li>
+                                    <li><code>&lt;article&gt;</code> - Contenus autonomes</li>
+                                </ul>
+                                <span class="badge bg-danger tech-badge">Version : HTML5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CSS3 & Bootstrap -->
+                    <div class="col-lg-6">
+                        <div class="card h-100 border-primary">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0"><i class="fab fa-css3-alt me-2"></i>CSS3 & Bootstrap 5</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Rôle :</strong> Mise en page responsive et stylisation</p>
+                                <h6>Fonctionnalités Bootstrap utilisées :</h6>
+                                <ul>
+                                    <li><strong>Grid System</strong> - Mise en page responsive (col-md-*, col-lg-*)</li>
+                                    <li><strong>Components</strong> - Cards, Modals, Alerts, Badges</li>
+                                    <li><strong>Utilities</strong> - Spacing, Colors, Flexbox</li>
+                                    <li><strong>Forms</strong> - Validation, Inputs, Selects</li>
+                                </ul>
+                                <span class="badge bg-primary tech-badge">Version : Bootstrap 5.3.2</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- JavaScript -->
+                    <div class="col-lg-6">
+                        <div class="card h-100 border-warning">
+                            <div class="card-header bg-warning text-dark">
+                                <h5 class="mb-0"><i class="fab fa-js-square me-2"></i>JavaScript (ES6+)</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Rôle :</strong> Manipulation du DOM et logique applicative</p>
+                                <h6>Concepts ES6+ utilisés :</h6>
+                                <ul>
+                                    <li><code>const</code> / <code>let</code> - Déclarations de variables</li>
+                                    <li><code>Arrow functions</code> - () => {}</li>
+                                    <li><code>Template literals</code> - `${variable}`</li>
+                                    <li><code>Destructuring</code> - const { a, b } = obj</li>
+                                    <li><code>Spread operator</code> - [...array]</li>
+                                    <li><code>Array methods</code> - map, filter, forEach, reduce</li>
+                                </ul>
+                                <span class="badge bg-warning text-dark tech-badge">Version : ES6+</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- jQuery -->
+                    <div class="col-lg-6">
+                        <div class="card h-100 border-info">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-dollar-sign me-2"></i>jQuery</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Rôle :</strong> Manipulation DOM simplifiée et requêtes AJAX</p>
+                                <h6>Méthodes jQuery utilisées :</h6>
+                                <ul>
+                                    <li><code>$(selector)</code> - Sélection d'éléments</li>
+                                    <li><code>$.ajax()</code> - Requêtes asynchrones</li>
+                                    <li><code>.on('event', fn)</code> - Gestion événements</li>
+                                    <li><code>.addClass() / .removeClass()</code> - Manipulation CSS</li>
+                                    <li><code>.html() / .text()</code> - Contenu DOM</li>
+                                    <li><code>.slideDown() / .fadeIn()</code> - Animations</li>
+                                </ul>
+                                <span class="badge bg-info tech-badge">Version : jQuery 3.7.1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bibliothèques JavaScript -->
+            <section class="mb-5">
+                <h2 class="fw-bold mb-4"><i class="fas fa-cubes me-2"></i>📦 Bibliothèques JavaScript</h2>
+                <div class="row g-4">
+                    <!-- DataTables -->
+                    <div class="col-lg-6">
+                        <div class="card h-100 border-success">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0"><i class="fas fa-table me-2"></i>DataTables</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Rôle :</strong> Tableaux interactifs avec recherche, tri et pagination</p>
+                                <h6>Configuration utilisée :</h6>
+                                <div class="code-block">
+<pre><span class="variable">$</span>(<span class="string">'#flightsTable'</span>).<span class="function">DataTable</span>({
+    <span class="variable">data</span>: flights,
+    <span class="variable">columns</span>: [...],
+    <span class="variable">language</span>: {
+        <span class="variable">search</span>: <span class="string">"Rechercher :"</span>,
+        <span class="variable">paginate</span>: {...}
+    },
+    <span class="variable">pageLength</span>: <span class="keyword">10</span>,
+    <span class="variable">order</span>: [[<span class="keyword">0</span>, <span class="string">'asc'</span>]]
+});</pre>
+                                </div>
+                                <p class="mt-2"><strong>Site officiel :</strong> <a href="https://datatables.net/" target="_blank">datatables.net</a></p>
+                                <span class="badge bg-success tech-badge">Version : 1.13.7</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chart.js -->
+                    <div class="col-lg-6">
+                        <div class="card h-100 border-danger">
+                            <div class="card-header bg-danger text-white">
+                                <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Chart.js</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Rôle :</strong> Visualisation de données avec graphiques</p>
+                                <h6>Types de graphiques utilisés :</h6>
+                                <ul>
+                                    <li><strong>Doughnut Chart</strong> - Répartition des vols par pays</li>
+                                    <li><strong>Bar Chart</strong> - Distribution des altitudes</li>
+                                </ul>
+                                <div class="code-block">
+<pre><span class="keyword">new</span> <span class="function">Chart</span>(ctx, {
+    <span class="variable">type</span>: <span class="string">'doughnut'</span>,
+    <span class="variable">data</span>: {
+        <span class="variable">labels</span>: countryLabels,
+        <span class="variable">datasets</span>: [{
+            <span class="variable">data</span>: countryData,
+            <span class="variable">backgroundColor</span>: [...]
+        }]
+    }
+});</pre>
+                                </div>
+                                <p class="mt-2"><strong>Site officiel :</strong> <a href="https://www.chartjs.org/" target="_blank">chartjs.org</a></p>
+                                <span class="badge bg-danger tech-badge">Version : 4.x</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- APIs Utilisées -->
+            <section class="mb-5">
+                <h2 class="fw-bold mb-4"><i class="fas fa-plug me-2"></i>🌐 APIs REST Utilisées</h2>
+                <div class="row g-4">
+                    <!-- OpenSky Network -->
+                    <div class="col-lg-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">✈️ OpenSky Network API</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>URL :</strong></p>
+                                <code class="d-block mb-2">https://opensky-network.org/api/states/all</code>
+                                <p><strong>Méthode :</strong> GET</p>
+                                <p><strong>Données retournées :</strong></p>
+                                <ul class="small">
+                                    <li>icao24 - Identifiant unique</li>
+                                    <li>callsign - Indicatif d'appel</li>
+                                    <li>origin_country - Pays d'origine</li>
+                                    <li>longitude / latitude - Position</li>
+                                    <li>baro_altitude - Altitude</li>
+                                    <li>velocity - Vitesse</li>
+                                </ul>
+                                <a href="https://opensky-network.org/apidoc/" target="_blank" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-external-link-alt me-1"></i>Documentation
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RandomUser -->
+                    <div class="col-lg-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0">👤 RandomUser API</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>URL :</strong></p>
+                                <code class="d-block mb-2">https://randomuser.me/api/?results=10</code>
+                                <p><strong>Méthode :</strong> GET</p>
+                                <p><strong>Paramètres :</strong></p>
+                                <ul class="small">
+                                    <li>results - Nombre de résultats</li>
+                                    <li>nat - Nationalités (fr,us,gb...)</li>
+                                </ul>
+                                <p><strong>Données retournées :</strong></p>
+                                <ul class="small">
+                                    <li>name (first, last)</li>
+                                    <li>email</li>
+                                    <li>picture (medium, large)</li>
+                                    <li>nat - Nationalité</li>
+                                </ul>
+                                <a href="https://randomuser.me/documentation" target="_blank" class="btn btn-outline-success btn-sm">
+                                    <i class="fas fa-external-link-alt me-1"></i>Documentation
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- REST Countries -->
+                    <div class="col-lg-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0">🌍 REST Countries API</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>URL :</strong></p>
+                                <code class="d-block mb-2">https://restcountries.com/v3.1/name/{country}</code>
+                                <p><strong>Méthode :</strong> GET</p>
+                                <p><strong>Données retournées :</strong></p>
+                                <ul class="small">
+                                    <li>name (common, official)</li>
+                                    <li>capital - Capitale</li>
+                                    <li>population - Population</li>
+                                    <li>languages - Langues</li>
+                                    <li>currencies - Monnaies</li>
+                                    <li>flags (svg, png)</li>
+                                    <li>timezones - Fuseaux horaires</li>
+                                </ul>
+                                <a href="https://restcountries.com/" target="_blank" class="btn btn-outline-info btn-sm">
+                                    <i class="fas fa-external-link-alt me-1"></i>Documentation
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Techniques JavaScript -->
+            <section class="mb-5">
+                <h2 class="fw-bold mb-4"><i class="fas fa-cogs me-2"></i>⚙️ Techniques JavaScript Utilisées</h2>
+                
+                <!-- AJAX -->
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0"><i class="fas fa-exchange-alt me-2"></i>1. Requêtes AJAX avec jQuery</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Utilisation de <code>$.ajax()</code> pour les appels asynchrones aux APIs :</p>
+                        <div class="code-block">
+<pre><span class="variable">$</span>.<span class="function">ajax</span>({
+    <span class="variable">url</span>: <span class="string">'https://opensky-network.org/api/states/all'</span>,
+    <span class="variable">method</span>: <span class="string">'GET'</span>,
+    <span class="variable">dataType</span>: <span class="string">'json'</span>,
+    <span class="variable">timeout</span>: <span class="keyword">30000</span>,
+    <span class="variable">success</span>: <span class="keyword">function</span>(response) {
+        <span class="comment">// Traitement des données</span>
+        <span class="function">processFlightData</span>(response.states);
+    },
+    <span class="variable">error</span>: <span class="keyword">function</span>(xhr, status, error) {
+        <span class="comment">// Gestion des erreurs</span>
+        <span class="function">showError</span>(error);
+    }
+});</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DOM Manipulation -->
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0"><i class="fas fa-code me-2"></i>2. Manipulation du DOM</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Techniques de manipulation dynamique du contenu HTML :</p>
+                        <div class="code-block">
+<pre><span class="comment">// Sélection et modification</span>
+<span class="variable">$</span>(<span class="string">'#totalFlights'</span>).<span class="function">text</span>(flights.length);
+
+<span class="comment">// Ajout de contenu HTML</span>
+<span class="variable">$</span>(<span class="string">'#passengersList'</span>).<span class="function">append</span>(<span class="string">`
+    &lt;div class="col-md-6"&gt;
+        &lt;div class="card"&gt;
+            &lt;h5&gt;${passenger.name.first}&lt;/h5&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+`</span>);
+
+<span class="comment">// Gestion des classes CSS</span>
+<span class="variable">$</span>(<span class="string">'#loading'</span>).<span class="function">addClass</span>(<span class="string">'d-none'</span>);
+<span class="variable">$</span>(<span class="string">'#content'</span>).<span class="function">removeClass</span>(<span class="string">'d-none'</span>);</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Handling -->
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0"><i class="fas fa-mouse-pointer me-2"></i>3. Gestion des Événements</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Utilisation des événements jQuery pour l'interactivité :</p>
+                        <div class="code-block">
+<pre><span class="comment">// Click event</span>
+<span class="variable">$</span>(<span class="string">'#refreshData'</span>).<span class="function">on</span>(<span class="string">'click'</span>, <span class="keyword">function</span>() {
+    <span class="function">loadFlightData</span>();
+});
+
+<span class="comment">// Form submit event</span>
+<span class="variable">$</span>(<span class="string">'#contactForm'</span>).<span class="function">on</span>(<span class="string">'submit'</span>, <span class="keyword">function</span>(e) {
+    e.<span class="function">preventDefault</span>();
+    <span class="function">validateForm</span>();
+});
+
+<span class="comment">// Input event (real-time)</span>
+<span class="variable">$</span>(<span class="string">'#password'</span>).<span class="function">on</span>(<span class="string">'input'</span>, <span class="keyword">function</span>() {
+    <span class="function">checkPasswordStrength</span>(<span class="variable">$</span>(<span class="keyword">this</span>).<span class="function">val</span>());
+});</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Processing -->
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0"><i class="fas fa-database me-2"></i>4. Traitement des Données</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Méthodes JavaScript modernes pour le traitement des données :</p>
+                        <div class="code-block">
+<pre><span class="comment">// Filtrage des données</span>
+<span class="keyword">const</span> <span class="variable">validFlights</span> = states.<span class="function">filter</span>(<span class="variable">state</span> => 
+    state[<span class="keyword">1</span>] && state[<span class="keyword">1</span>].<span class="function">trim</span>() !== <span class="string">''</span>
+);
+
+<span class="comment">// Transformation des données</span>
+<span class="keyword">const</span> <span class="variable">processedData</span> = states.<span class="function">map</span>(<span class="variable">state</span> => ({
+    <span class="variable">callsign</span>: state[<span class="keyword">1</span>],
+    <span class="variable">country</span>: state[<span class="keyword">2</span>],
+    <span class="variable">altitude</span>: state[<span class="keyword">7</span>]
+}));
+
+<span class="comment">// Agrégation (comptage par pays)</span>
+<span class="keyword">const</span> <span class="variable">countryCounts</span> = {};
+flights.<span class="function">forEach</span>(<span class="variable">flight</span> => {
+    countryCounts[flight.country] = 
+        (countryCounts[flight.country] || <span class="keyword">0</span>) + <span class="keyword">1</span>;
+});
+
+<span class="comment">// Calcul de moyenne</span>
+<span class="keyword">const</span> <span class="variable">avgAltitude</span> = altitudes.<span class="function">reduce</span>((<span class="variable">a</span>, <span class="variable">b</span>) => a + b, <span class="keyword">0</span>) / altitudes.length;</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Validation -->
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0"><i class="fas fa-check-circle me-2"></i>5. Validation de Formulaires</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Validation JavaScript côté client :</p>
+                        <div class="code-block">
+<pre><span class="comment">// Validation email avec regex</span>
+<span class="keyword">function</span> <span class="function">isValidEmail</span>(<span class="variable">email</span>) {
+    <span class="keyword">const</span> <span class="variable">regex</span> = <span class="string">/^[^\s@]+@[^\s@]+\.[^\s@]+$/</span>;
+    <span class="keyword">return</span> regex.<span class="function">test</span>(email);
+}
+
+<span class="comment">// Validation longueur minimale</span>
+<span class="keyword">if</span> (name.length < <span class="keyword">3</span>) {
+    <span class="function">showFieldError</span>(<span class="string">'#name'</span>, <span class="string">'Minimum 3 caractères'</span>);
+}
+
+<span class="comment">// Confirmation mot de passe</span>
+<span class="keyword">if</span> (password !== confirmPassword) {
+    <span class="function">showFieldError</span>(<span class="string">'#confirm'</span>, <span class="string">'Mots de passe différents'</span>);
+}
+
+<span class="comment">// Force du mot de passe</span>
+<span class="keyword">function</span> <span class="function">calculateStrength</span>(<span class="variable">pwd</span>) {
+    <span class="keyword">let</span> <span class="variable">score</span> = <span class="keyword">0</span>;
+    <span class="keyword">if</span> (pwd.length >= <span class="keyword">8</span>) score += <span class="keyword">20</span>;
+    <span class="keyword">if</span> (<span class="string">/[A-Z]/</span>.<span class="function">test</span>(pwd)) score += <span class="keyword">20</span>;
+    <span class="keyword">if</span> (<span class="string">/[0-9]/</span>.<span class="function">test</span>(pwd)) score += <span class="keyword">20</span>;
+    <span class="keyword">return</span> score;
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LocalStorage -->
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0"><i class="fas fa-hdd me-2"></i>6. Stockage Local (localStorage)</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Persistance des données entre les pages :</p>
+                        <div class="code-block">
+<pre><span class="comment">// Sauvegarder le vol sélectionné</span>
+localStorage.<span class="function">setItem</span>(<span class="string">'selectedFlight'</span>, 
+    JSON.<span class="function">stringify</span>(flightData)
+);
+
+<span class="comment">// Récupérer le vol sélectionné</span>
+<span class="keyword">const</span> <span class="variable">flight</span> = JSON.<span class="function">parse</span>(
+    localStorage.<span class="function">getItem</span>(<span class="string">'selectedFlight'</span>)
+);
+
+<span class="comment">// Supprimer les données</span>
+localStorage.<span class="function">removeItem</span>(<span class="string">'selectedFlight'</span>);</pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Responsive Design -->
+            <section class="mb-5">
+                <h2 class="fw-bold mb-4"><i class="fas fa-mobile-alt me-2"></i>📱 Design Responsive</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <p>Le projet utilise le système de grille Bootstrap pour s'adapter à tous les écrans :</p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th>Breakpoint</th>
+                                        <th>Classe</th>
+                                        <th>Dimension</th>
+                                        <th>Utilisation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Extra small</td>
+                                        <td><code>col-</code></td>
+                                        <td>&lt; 576px</td>
+                                        <td>Téléphones</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Small</td>
+                                        <td><code>col-sm-</code></td>
+                                        <td>≥ 576px</td>
+                                        <td>Téléphones paysage</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Medium</td>
+                                        <td><code>col-md-</code></td>
+                                        <td>≥ 768px</td>
+                                        <td>Tablettes</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Large</td>
+                                        <td><code>col-lg-</code></td>
+                                        <td>≥ 992px</td>
+                                        <td>Ordinateurs</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Extra large</td>
+                                        <td><code>col-xl-</code></td>
+                                        <td>≥ 1200px</td>
+                                        <td>Grands écrans</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Liens CDN -->
+            <section class="mb-5">
+                <h2 class="fw-bold mb-4"><i class="fas fa-link me-2"></i>🔗 Liens CDN Utilisés</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <h6>CSS :</h6>
+                        <ul class="list-group list-group-flush mb-3">
+                            <li class="list-group-item">
+                                <code>https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css</code>
+                            </li>
+                            <li class="list-group-item">
+                                <code>https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css</code>
+                            </li>
+                            <li class="list-group-item">
+                                <code>https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css</code>
+                            </li>
+                        </ul>
+                        <h6>JavaScript :</h6>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <code>https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js</code>
+                            </li>
+                            <li class="list-group-item">
+                                <code>https://code.jquery.com/jquery-3.7.1.min.js</code>
+                            </li>
+                            <li class="list-group-item">
+                                <code>https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js</code>
+                            </li>
+                            <li class="list-group-item">
+                                <code>https://cdn.jsdelivr.net/npm/chart.js</code>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conclusion -->
+            <section>
+                <div class="card bg-primary text-white">
+                    <div class="card-body p-4 text-center">
+                        <h3 class="mb-3"><i class="fas fa-graduation-cap me-2"></i>Conclusion</h3>
+                        <p class="lead mb-4">
+                            Ce projet démontre l'intégration de multiples technologies web modernes pour créer une application 
+                            interactive de suivi de vols. Il met en pratique les concepts fondamentaux du développement frontend : 
+                            HTML sémantique, CSS responsive, JavaScript moderne, AJAX, et visualisation de données.
+                        </p>
+                        <div class="d-flex justify-content-center gap-2 flex-wrap">
+                            <span class="badge bg-light text-dark tech-badge">HTML5</span>
+                            <span class="badge bg-light text-dark tech-badge">CSS3</span>
+                            <span class="badge bg-light text-dark tech-badge">Bootstrap 5</span>
+                            <span class="badge bg-light text-dark tech-badge">JavaScript ES6+</span>
+                            <span class="badge bg-light text-dark tech-badge">jQuery</span>
+                            <span class="badge bg-light text-dark tech-badge">AJAX</span>
+                            <span class="badge bg-light text-dark tech-badge">DataTables</span>
+                            <span class="badge bg-light text-dark tech-badge">Chart.js</span>
+                            <span class="badge bg-light text-dark tech-badge">REST APIs</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 no-print">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-plane-departure me-2"></i>Flight Tracker</h5>
+                    <p class="text-muted mb-0">Documentation Technique - Version 1.0</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">&copy; 2025 - Flight Tracker Company</p>
+                    <small class="text-muted">raslen.2907@gmail.com | +216 56 749 482</small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</body>
+</html>

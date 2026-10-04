@@ -1,0 +1,5222 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Tracker - Dashboard Utilisateur</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --sidebar-width: 280px;
+            --sidebar-collapsed-width: 70px;
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --secondary-gradient: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            --success-gradient: linear-gradient(135deg, #5CB85C 0%, #449D44 100%);
+            --danger-gradient: linear-gradient(135deg, #D9534F 0%, #C9302C 100%);
+            --warning-gradient: linear-gradient(135deg, #F0AD4E 0%, #EC971F 100%);
+            --info-gradient: linear-gradient(135deg, #5BC0DE 0%, #31B0D5 100%);
+            --dark-gradient: linear-gradient(135deg, #2C3E50 0%, #34495E 100%);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --hover-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            --neon-glow: 0 0 20px rgba(135, 206, 235, 0.5);
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #2c3e50;
+            --text-secondary: #64748b;
+            --accent-color: #4A90E2;
+            --accent-hover: #357ABD;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 50%, #bbdefb 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(135, 206, 235, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(74, 144, 226, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(92, 184, 92, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Animated background particles */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, rgba(135, 206, 235, 0.2), transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(74, 144, 226, 0.1), transparent),
+                radial-gradient(1px 1px at 50px 50px, rgba(135, 206, 235, 0.2), transparent),
+                radial-gradient(1px 1px at 80px 10px, rgba(74, 144, 226, 0.1), transparent),
+                radial-gradient(2px 2px at 130px 80px, rgba(135, 206, 235, 0.2), transparent);
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            animation: sparkle 20s linear infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes sparkle {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-200px); }
+        }
+
+        /* Sidebar Styles - Premium Design */
+        /* Modern Hover-based Sidebar Collapse */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            background: var(--primary-gradient);
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .sidebar:hover {
+            width: var(--sidebar-width);
+        }
+
+        .sidebar:not(:hover) {
+            width: var(--sidebar-collapsed-width);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(135, 206, 235, 0.3);
+            border-radius: 2px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(135, 206, 235, 0.5);
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-brand i {
+            font-size: 1.5rem;
+            color: #fbbf24;
+        }
+
+        .sidebar-brand span {
+            transition: all 0.3s ease;
+        }
+
+        /* Hide text when not hovering */
+        .sidebar:not(:hover) .sidebar-brand span {
+            display: none;
+        }
+
+        .sidebar:not(:hover) .sidebar-text {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(-10px);
+        }
+
+        .sidebar:not(:hover) .sidebar-badge {
+            display: none;
+        }
+
+        .sidebar:not(:hover) .sidebar-section-title {
+            display: none;
+        }
+
+        /* Remove toggle button styles */
+
+        /* Sidebar Navigation - Premium Design */
+        .sidebar-nav {
+            padding: 1.5rem 0;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-item {
+            margin: 0.125rem 1rem;
+            position: relative;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border: 1px solid transparent;
+        }
+
+        .sidebar-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(135, 206, 235, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .sidebar-link::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 3px;
+            height: 0;
+            background: var(--primary-gradient);
+            border-radius: 0 2px 2px 0;
+            transition: all 0.3s ease;
+            transform: translateY(-50%);
+        }
+
+        .sidebar-link:hover::before,
+        .sidebar-link.active::before {
+            left: 100%;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(4px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-link.active::after {
+            height: 70%;
+            left: 0;
+        }
+
+        .sidebar-link i {
+            font-size: 1.25rem;
+            min-width: 24px;
+            text-align: center;
+            color: white;
+        }
+
+        .sidebar-link:hover i,
+        .sidebar-link.active i {
+            color: #fbbf24;
+            transform: scale(1.1);
+        }
+
+        .sidebar-text {
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-weight: 600;
+            color: white;
+        }
+
+        .sidebar-badge {
+            margin-left: auto;
+            background: var(--primary-gradient);
+            color: white;
+            padding: 0.25rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(135, 206, 235, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: badge-pulse 2s ease-in-out infinite;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        @keyframes badge-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .sidebar-link:hover .sidebar-badge {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(135, 206, 235, 0.4);
+        }
+        .sidebar-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            margin: 1.5rem 1rem;
+            opacity: 0.5;
+        }
+
+        /* Sidebar Section Title */
+        .sidebar-section-title {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 1rem;
+        }
+
+        /* Main Content - Adjust for hover-based sidebar */
+        .main-content {
+            margin-left: var(--sidebar-collapsed-width);
+            min-height: 100vh;
+            transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 2rem;
+            position: relative;
+        }
+
+        .main-content::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-collapsed-width);
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: -1;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Expand content when sidebar is hovered */
+        .sidebar:hover ~ .main-content,
+        .sidebar:hover + .main-content {
+            margin-left: var(--sidebar-width);
+        }
+
+        .sidebar:hover ~ .main-content::before,
+        .sidebar:hover + .main-content::before {
+            left: var(--sidebar-width);
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background: white;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .top-nav::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(135, 206, 235, 0.05), transparent);
+            transition: left 1s ease;
+        }
+
+        .top-nav:hover::before {
+            left: 100%;
+        }
+
+        .search-bar {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.875rem 1rem 0.875rem 3.5rem;
+            border: 2px solid rgba(135, 206, 235, 0.3);
+            border-radius: 30px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            color: var(--text-primary);
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 6px rgba(135, 206, 235, 0.15), 0 8px 25px rgba(135, 206, 235, 0.2);
+            background: white;
+            transform: scale(1.02);
+        }
+
+        .search-bar input::placeholder {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification-btn {
+            position: relative;
+            background: rgba(135, 206, 235, 0.1);
+            border: 2px solid rgba(135, 206, 235, 0.3);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            color: var(--primary-color);
+        }
+
+        .notification-btn:hover {
+            background: rgba(135, 206, 235, 0.2);
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 8px 25px rgba(135, 206, 235, 0.3);
+        }
+
+        .notification-btn:active {
+            transform: scale(0.95);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            background: var(--danger-gradient);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(220, 53, 69, 0.4);
+            border: 2px solid white;
+            animation: notification-bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes notification-bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1) rotate(-5deg);
+            box-shadow: 0 8px 25px rgba(135, 206, 235, 0.5);
+        }
+
+        /* Dashboard Cards */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-grid .dashboard-card {
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .dashboard-card {
+            background: white;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(135, 206, 235, 0.05) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            border-color: rgba(135, 206, 235, 0.5);
+        }
+
+        .dashboard-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .dashboard-card:hover::after {
+            opacity: 1;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .card-icon i {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-icon.primary {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .card-icon.success {
+            background: var(--success-gradient);
+            color: white;
+        }
+
+        .card-icon.warning {
+            background: var(--warning-gradient);
+            color: white;
+        }
+
+        .card-icon.danger {
+            background: var(--danger-gradient);
+            color: white;
+        }
+
+        .card-icon.info {
+            background: var(--info-gradient);
+            color: white;
+        }
+
+        .card-title {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .card-change {
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+
+        .card-change.positive {
+            background: rgba(92, 184, 92, 0.1);
+            color: #5CB85C;
+        }
+
+        .card-change.negative {
+            background: rgba(217, 83, 79, 0.1);
+            color: #D9534F;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            background: white;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-actions::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            opacity: 0.5;
+        }
+
+        .quick-actions h3 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .action-btn {
+            padding: 1.5rem;
+            border: 2px solid rgba(135, 206, 235, 0.3);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(135, 206, 235, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .action-btn:hover {
+            border-color: var(--accent-color);
+            background: rgba(135, 206, 235, 0.1);
+            color: var(--primary-color);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(135, 206, 235, 0.2);
+        }
+
+        .action-btn:hover::before {
+            left: 100%;
+        }
+
+        .action-btn i {
+            font-size: 2rem;
+            transition: all 0.3s ease;
+            color: var(--primary-color);
+        }
+
+        .action-btn:hover i {
+            transform: scale(1.2) rotate(5deg);
+            filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.5));
+        }
+
+        .action-btn span {
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover span {
+            transform: translateY(-2px);
+        }
+
+        /* Enhanced Form Styles */
+        .form-control, .form-select {
+            border: 2px solid rgba(135, 206, 235, 0.3);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            color: var(--text-primary);
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(135, 206, 235, 0.15);
+            background: white;
+            transform: scale(1.02);
+            color: var(--text-primary);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Enhanced Button Styles */
+        .btn {
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(135, 206, 235, 0.4);
+        }
+
+        .btn-success {
+            background: var(--success-gradient);
+            box-shadow: 0 4px 15px rgba(92, 184, 92, 0.3);
+        }
+
+        .btn-danger {
+            background: var(--danger-gradient);
+            box-shadow: 0 4px 15px rgba(217, 83, 79, 0.3);
+        }
+
+        .btn-warning {
+            background: var(--warning-gradient);
+            box-shadow: 0 4px 15px rgba(240, 173, 78, 0.3);
+        }
+
+        /* Enhanced Table Styles */
+        .table {
+            background: white;
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(135, 206, 235, 0.3);
+        }
+
+        .table thead {
+            background: linear-gradient(135deg, rgba(135, 206, 235, 0.1) 0%, rgba(74, 144, 226, 0.1) 100%);
+        }
+
+        .table thead th {
+            border: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            padding: 1rem;
+        }
+
+        .table tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(135, 206, 235, 0.1);
+        }
+
+        .table tbody tr:hover {
+            background: rgba(135, 206, 235, 0.05);
+            transform: scale(1.01);
+        }
+
+        .table tbody td {
+            border: none;
+            color: var(--text-secondary);
+            padding: 1rem;
+            vertical-align: middle;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .top-nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .search-bar {
+                max-width: 100%;
+            }
+        }
+
+        /* Modern Flight Search Section - Complete Redesign */
+        .search-flights-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 25px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(102, 126, 234, 0.3);
+        }
+
+        .search-flights-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .search-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card i {
+            font-size: 1.5rem;
+            color: #ffd700;
+        }
+
+        .stat-card div {
+            text-align: left;
+        }
+
+        .stat-card .number {
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-card .label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Popular Routes - Modern Cards */
+        .popular-routes {
+            margin-bottom: 3rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .routes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .route-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            border: 2px solid transparent;
+            background-image: linear-gradient(white, white), var(--primary-gradient);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .route-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .route-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .route-card:hover::before {
+            left: 100%;
+        }
+
+        .route-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .route-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .route-price {
+            text-align: right;
+        }
+
+        .route-price .amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .route-price .label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .route-info {
+            margin-bottom: 1.5rem;
+        }
+
+        .route-path {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .route-details {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .route-details span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .route-features {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Enhanced Search Form */
+        .search-form-modern {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .search-tabs {
+            display: flex;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .search-tab {
+            flex: 1;
+            padding: 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .search-tab.active {
+            color: #667eea;
+            background: white;
+        }
+
+        .search-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+        }
+
+        .search-tab:hover:not(.active) {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .search-form-content {
+            padding: 2.5rem;
+        }
+
+        .search-row {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 1.5rem;
+            align-items: end;
+            margin-bottom: 2rem;
+        }
+
+        .input-group-modern {
+            position: relative;
+        }
+
+        .input-group-modern label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 1.1rem;
+            z-index: 2;
+        }
+
+        .input-modern {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .input-modern:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            transform: scale(1.02);
+        }
+
+        .swap-button-modern {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            margin-bottom: 1rem;
+        }
+
+        .swap-button-modern:hover {
+            transform: rotate(180deg) scale(1.1);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .search-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .checkbox-modern {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox-modern:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .checkbox-modern input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #667eea;
+            cursor: pointer;
+        }
+
+        .checkbox-modern label {
+            cursor: pointer;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .search-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .search-tips-modern {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .search-tips-modern i {
+            color: #667eea;
+        }
+
+        .search-button-modern {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-button-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .search-button-modern:active {
+            transform: translateY(0);
+        }
+
+        /* Advanced Options Panel */
+        .advanced-panel {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.03) 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            display: none;
+        }
+
+        .advanced-panel.active {
+            display: block;
+            animation: slideDown 0.4s ease;
+        }
+
+        .advanced-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .advanced-section h4 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .advanced-section h4 i {
+            color: #667eea;
+        }
+
+        .price-range-modern {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .price-input-modern {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .price-input-modern:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .airline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .airline-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .airline-item:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .airline-item input[type="checkbox"] {
+            accent-color: #667eea;
+        }
+
+        .airline-item label {
+            cursor: pointer;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .search-flights-hero {
+                padding: 2rem 1rem;
+            }
+
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+
+            .search-row {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .swap-button-modern {
+                position: absolute;
+                right: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .search-actions {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .search-button-modern {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        .search-header {
+            background: linear-gradient(135deg, rgba(135, 206, 235, 0.05) 0%, rgba(74, 144, 226, 0.05) 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(135, 206, 235, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+        }
+
+        .search-stats .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(135, 206, 235, 0.1);
+            border: 1px solid rgba(135, 206, 235, 0.2);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .quick-search-cards {
+            margin-bottom: 2rem;
+        }
+
+        .quick-search-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 2px solid rgba(135, 206, 235, 0.2);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-search-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(135, 206, 235, 0.05) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .quick-search-card:hover {
+            transform: translateY(-5px) scale(1.03);
+            border-color: var(--accent-color);
+            box-shadow: 0 15px 35px rgba(135, 206, 235, 0.2);
+        }
+
+        .quick-search-card:hover::before {
+            opacity: 1;
+        }
+
+        .quick-search-card i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .quick-search-card:hover i {
+            transform: scale(1.2) rotate(5deg);
+            filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.5));
+        }
+
+        .quick-search-card h6 {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .quick-search-card small {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .search-form-container {
+            margin-bottom: 2rem;
+        }
+
+        .card-header-custom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(135, 206, 235, 0.2);
+            background: linear-gradient(135deg, rgba(135, 206, 235, 0.05) 0%, rgba(74, 144, 226, 0.05) 100%);
+        }
+
+        .flight-type-toggle {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 0.25rem;
+            border-radius: 30px;
+            border: 1px solid rgba(135, 206, 235, 0.2);
+        }
+
+        .type-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .type-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3);
+        }
+
+        .type-btn:hover:not(.active) {
+            background: rgba(135, 206, 235, 0.1);
+            color: var(--primary-color);
+        }
+
+        .swap-btn {
+            background: var(--primary-gradient);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .swap-btn:hover {
+            transform: rotate(180deg) scale(1.1);
+            box-shadow: 0 8px 25px rgba(135, 206, 235, 0.4);
+        }
+
+        .form-floating {
+            position: relative;
+        }
+
+        .form-floating > .form-control {
+            height: 60px;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid rgba(135, 206, 235, 0.3);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .form-floating > .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(135, 206, 235, 0.15);
+            background: white;
+            transform: scale(1.02);
+        }
+
+        .form-floating > label {
+            padding: 1rem 1rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        .form-floating > .form-control:focus ~ label,
+        .form-floating > .form-control:not(:placeholder-shown) ~ label {
+            transform: scale(0.85) translateY(-0.5rem) translateX(0.5rem);
+            color: var(--accent-color);
+        }
+
+        .enhanced-select {
+            position: relative;
+        }
+
+        .enhanced-select::after {
+            content: '\f107';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: var(--primary-color);
+            z-index: 1;
+        }
+
+        .enhanced-select select {
+            appearance: none;
+            padding-right: 3rem !important;
+        }
+
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .search-suggestions.active {
+            display: block;
+        }
+
+        .suggestion-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(135, 206, 235, 0.1);
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:hover {
+            background: rgba(135, 206, 235, 0.1);
+            color: var(--primary-color);
+        }
+
+        .suggestion-item i {
+            margin-right: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .advanced-search-toggle {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .advanced-search-toggle button {
+            background: transparent;
+            border: 2px solid rgba(135, 206, 235, 0.3);
+            color: var(--primary-color);
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .advanced-search-toggle button:hover {
+            background: rgba(135, 206, 235, 0.1);
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .advanced-search-options {
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .advanced-search-options.active {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .price-range-slider {
+            margin: 1rem 0;
+        }
+
+        .price-range-input {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .price-input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 2px solid rgba(135, 206, 235, 0.3);
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .airline-filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .airline-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border: 1px solid rgba(135, 206, 235, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .airline-checkbox:hover {
+            background: rgba(135, 206, 235, 0.05);
+            border-color: var(--accent-color);
+        }
+
+        .airline-checkbox input[type="checkbox"] {
+            accent-color: var(--primary-color);
+        }
+
+        .airline-checkbox label {
+            cursor: pointer;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        /* Enhanced Flight Results */
+        .flight-result-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 2px solid rgba(135, 206, 235, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flight-result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(135, 206, 235, 0.05), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .flight-result-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--accent-color);
+            box-shadow: 0 20px 40px rgba(135, 206, 235, 0.15);
+        }
+
+        .flight-result-card:hover::before {
+            left: 100%;
+        }
+
+        .flight-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .flight-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .airline-logo {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-gradient);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        .flight-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .flight-time {
+            text-align: center;
+        }
+
+        .flight-time .time {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .flight-time .city {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .flight-duration {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .flight-duration i {
+            color: var(--primary-color);
+            margin: 0 0.5rem;
+        }
+
+        .flight-price {
+            text-align: right;
+        }
+
+        .price-amount {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .price-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .flight-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .select-flight-btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3);
+        }
+
+        .select-flight-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(135, 206, 235, 0.4);
+        }
+
+        .flight-features {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .feature-badge {
+            background: rgba(135, 206, 235, 0.1);
+            color: var(--primary-color);
+            padding: 0.25rem 0.5rem;
+            border-radius: 15px;
+            font-weight: 600;
+        }
+
+        /* Loading State */
+        .search-loading {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .search-loading .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(135, 206, 235, 0.3);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Search Flights Section - Premium Styles */
+        .search-header h2 {
+            color: var(--text-primary);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .search-stats {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, rgba(135, 206, 235, 0.1) 0%, rgba(74, 144, 226, 0.1) 100%);
+            border-radius: 30px;
+            border: 1px solid rgba(135, 206, 235, 0.2);
+        }
+
+        .search-stats .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .search-stats i {
+            font-size: 1rem;
+        }
+
+        /* Quick Search Cards */
+        .quick-search-cards {
+            margin-bottom: 2rem;
+        }
+
+        .quick-search-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border: 2px solid rgba(135, 206, 235, 0.2);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: 100%;
+            min-height: 80px;
+        }
+
+        .quick-search-card:hover {
+            border-color: var(--accent-color);
+            background: linear-gradient(135deg, rgba(135, 206, 235, 0.05) 0%, rgba(74, 144, 226, 0.05) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(135, 206, 235, 0.15);
+        }
+
+        .quick-search-card i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            min-width: 30px;
+        }
+
+        .quick-search-card .card-info h6 {
+            margin: 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .quick-search-card .card-info small {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Search Form Container */
+        .search-form-container {
+            margin-bottom: 2rem;
+        }
+
+        .card-header-custom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, rgba(135, 206, 235, 0.08) 0%, rgba(74, 144, 226, 0.08) 100%);
+            border-bottom: 1px solid rgba(135, 206, 235, 0.15);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .card-header-custom h4 {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Flight Type Toggle */
+        .flight-type-toggle {
+            display: flex;
+            background: white;
+            border-radius: 30px;
+            padding: 0.25rem;
+            border: 1px solid rgba(135, 206, 235, 0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .type-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .type-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 2px 10px rgba(135, 206, 235, 0.3);
+        }
+
+        .type-btn:hover:not(.active) {
+            background: rgba(135, 206, 235, 0.1);
+            color: var(--primary-color);
+        }
+
+        .type-btn i {
+            font-size: 0.9rem;
+        }
+
+        /* Form Floating Labels */
+        .form-floating {
+            margin-bottom: 0;
+        }
+
+        .form-floating > .form-control {
+            height: 58px;
+            padding: 1rem 0.75rem;
+            border: 2px solid rgba(135, 206, 235, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .form-floating > .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(135, 206, 235, 0.15);
+            background: white;
+        }
+
+        .form-floating > .form-select {
+            height: 58px;
+            padding: 1rem 0.75rem;
+            border: 2px solid rgba(135, 206, 235, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .form-floating > .form-select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(135, 206, 235, 0.15);
+            background: white;
+        }
+
+        .form-floating > label {
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 1rem 0.75rem;
+        }
+
+        .form-floating > .form-control:focus ~ label,
+        .form-floating > .form-control:not(:placeholder-shown) ~ label,
+        .form-floating > .form-select:focus ~ label,
+        .form-floating > .form-select:valid ~ label {
+            color: var(--primary-color);
+            transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+        }
+
+        /* Swap Button */
+        .swap-btn {
+            width: 45px;
+            height: 45px;
+            border: 2px solid rgba(135, 206, 235, 0.3);
+            background: white;
+            border-radius: 50%;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .swap-btn:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+            transform: rotate(180deg);
+            box-shadow: 0 4px 20px rgba(135, 206, 235, 0.3);
+        }
+
+        /* Additional Options */
+        .additional-options {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 0.75rem 0;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .form-check-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(135, 206, 235, 0.25);
+        }
+
+        .form-check-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* Submit Section */
+        .submit-section {
+            padding: 1.5rem 0 0 0;
+            border-top: 1px solid rgba(135, 206, 235, 0.15);
+        }
+
+        .search-tips {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-btn {
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            border-radius: 30px;
+            background: var(--primary-gradient);
+            border: none;
+            box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(135, 206, 235, 0.4);
+        }
+
+        /* Responsive Design for Search Section */
+        @media (max-width: 768px) {
+            .search-header {
+                text-align: center;
+            }
+
+            .search-header .d-flex {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .card-header-custom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .flight-type-toggle {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .type-btn {
+                flex: 1;
+                justify-content: center;
+            }
+
+            .additional-options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .submit-section .d-flex {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .search-btn {
+                width: 100%;
+            }
+        }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            z-index: 9999;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .notification.success {
+            background: var(--success-gradient);
+        }
+
+        .notification.error {
+            background: var(--danger-gradient);
+        }
+
+        .notification.warning {
+            background: var(--warning-gradient);
+        }
+
+        .notification.info {
+            background: var(--info-gradient);
+        }
+
+        /* Modern Modal Styles */
+        .modal-custom {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 9999;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-custom.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-content-custom {
+            background: white;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+
+        .modal-header-custom {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+        }
+
+        .modal-header-custom h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-body-custom {
+            padding: 2rem;
+        }
+
+        .reservation-details {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .detail-section {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .detail-section h4 {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .detail-value {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .passenger-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .passenger-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .passenger-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .modal-footer-custom {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .btn-custom {
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary-custom {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary-custom {
+            background: #e2e8f0;
+            color: var(--text-primary);
+        }
+
+        .btn-secondary-custom:hover {
+            background: #cbd5e0;
+        }
+
+        .edit-form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .edit-form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .edit-form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .edit-form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-confirmed {
+            background: #10b981;
+            color: white;
+        }
+
+        .status-pending {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .status-cancelled {
+            background: #ef4444;
+            color: white;
+        }
+
+        /* Enhanced Button Styles */
+        .btn-action {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-view {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+
+        .btn-view:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Responsive Design for Modals */
+        @media (max-width: 768px) {
+            .modal-content-custom {
+                width: 95%;
+                margin: 1rem;
+            }
+
+            .modal-header-custom,
+            .modal-body-custom,
+            .modal-footer-custom {
+                padding: 1.5rem;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .passenger-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .modal-footer-custom {
+                flex-direction: column;
+            }
+
+            .btn-custom {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        
+        <div class="sidebar-header">
+            <a href="#" class="sidebar-brand">
+                <i class="fas fa-plane-departure"></i>
+                <span>Flight Tracker</span>
+            </a>
+        </div>
+
+        <nav class="sidebar-nav">
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link active" onclick="event.preventDefault(); showSection('overview', this)">
+                        <i class="fas fa-home"></i>
+                        <span class="sidebar-text">Tableau de bord</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" onclick="event.preventDefault(); showSection('search-flights', this)">
+                        <i class="fas fa-search"></i>
+                        <span class="sidebar-text">Rechercher des vols</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" onclick="event.preventDefault(); showSection('booking', this)">
+                        <i class="fas fa-calendar-plus"></i>
+                        <span class="sidebar-text">Réserver un vol</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" onclick="event.preventDefault(); showSection('reservations', this)">
+                        <i class="fas fa-ticket-alt"></i>
+                        <span class="sidebar-text">Mes réservations</span>
+                        <span class="sidebar-badge">3</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" onclick="event.preventDefault(); showSection('tracking', this)">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <span class="sidebar-text">Suivi des vols</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" onclick="event.preventDefault(); showSection('profile', this)">
+                        <i class="fas fa-user-cog"></i>
+                        <span class="sidebar-text">Mon profil</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" onclick="event.preventDefault(); showSection('settings', this)">
+                        <i class="fas fa-cog"></i>
+                        <span class="sidebar-text">Paramètres</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="sidebar-text">Déconnexion</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+        <!-- Top Navigation -->
+        <div class="top-nav">
+            <div class="user-menu ms-auto">
+                <button class="notification-btn" onclick="showNotifications()">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">2</span>
+                </button>
+                <div class="user-avatar" onclick="showUserMenu()">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overview Section -->
+        <section id="overview" class="content-section active">
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="card-icon primary">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <div class="card-title">Vols recherchés</div>
+                    <div class="card-value" id="flightsSearched">24</div>
+                    <div class="card-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        12% ce mois
+                    </div>
+                </div>
+                <div class="dashboard-card success">
+                    <div class="card-icon success">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="card-title">Réservations confirmées</div>
+                    <div class="card-value" id="confirmedBookings">3</div>
+                    <div class="card-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        2 nouvelles
+                    </div>
+                </div>
+                <div class="dashboard-card warning">
+                    <div class="card-icon warning">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="card-title">Vols en attente</div>
+                    <div class="card-value" id="pendingFlights">1</div>
+                    <div class="card-change negative">
+                        <i class="fas fa-arrow-down"></i>
+                        1 en retard
+                    </div>
+                </div>
+                <div class="dashboard-card info">
+                    <div class="card-icon info">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="card-title">Passagers enregistrés</div>
+                    <div class="card-value" id="registeredPassengers">8</div>
+                    <div class="card-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        3 ajoutés
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="quick-actions">
+                <h4 class="mb-3">Actions rapides</h4>
+                <div class="action-buttons">
+                    <a href="#" class="action-btn" onclick="event.preventDefault(); showSection('search-flights', this)">
+                        <i class="fas fa-search"></i>
+                        <span>Rechercher un vol</span>
+                    </a>
+                    <a href="#" class="action-btn" onclick="event.preventDefault(); showSection('booking', this)">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Nouvelle réservation</span>
+                    </a>
+                    <a href="#" class="action-btn" onclick="event.preventDefault(); showSection('reservations', this)">
+                        <i class="fas fa-list"></i>
+                        <span>Voir mes réservations</span>
+                    </a>
+                    <a href="#" class="action-btn" onclick="event.preventDefault(); showSection('tracking', this)">
+                        <i class="fas fa-map"></i>
+                        <span>Suivre un vol</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Flights Section - Modern Redesign -->
+        <section id="search-flights" class="content-section">
+            <!-- Hero Section -->
+            <div class="search-flights-hero">
+                <div class="hero-content">
+                    <h1>🌍 Explorez le Monde</h1>
+                    <p>Découvrez des destinations incroyables à des prix imbattables</p>
+                    <div class="search-stats">
+                        <div class="stat-card">
+                            <i class="fas fa-plane"></i>
+                            <div>
+                                <span class="number">500+</span>
+                                <span class="label">Destinations</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-globe"></i>
+                            <div>
+                                <span class="number">150+</span>
+                                <span class="label">Pays</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-star"></i>
+                            <div>
+                                <span class="number">4.8/5</span>
+                                <span class="label">Satisfaction</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popular Routes -->
+            <div class="popular-routes">
+                <div class="section-header">
+                    <h2>Routes Populaires</h2>
+                    <p>Découvrez nos destinations les plus recherchées</p>
+                </div>
+                <div class="routes-grid">
+                    <div class="route-card" onclick="setQuickSearch('Paris', 'New York')">
+                        <div class="route-header">
+                            <div class="route-icon">
+                                <i class="fas fa-city"></i>
+                            </div>
+                            <div class="route-price">
+                                <div class="amount">450€</div>
+                                <div class="label">À partir de</div>
+                            </div>
+                        </div>
+                        <div class="route-info">
+                            <div class="route-path">Paris → New York</div>
+                            <div class="route-details">
+                                <span><i class="fas fa-clock"></i>8h 30m</span>
+                                <span><i class="fas fa-calendar"></i>Lun-Ven</span>
+                            </div>
+                        </div>
+                        <div class="route-features">
+                            <span class="feature-tag">Direct</span>
+                            <span class="feature-tag">Premium</span>
+                        </div>
+                    </div>
+
+                    <div class="route-card" onclick="setQuickSearch('Londres', 'Tokyo')">
+                        <div class="route-header">
+                            <div class="route-icon">
+                                <i class="fas fa-torii-gate"></i>
+                            </div>
+                            <div class="route-price">
+                                <div class="amount">680€</div>
+                                <div class="label">À partir de</div>
+                            </div>
+                        </div>
+                        <div class="route-info">
+                            <div class="route-path">Londres → Tokyo</div>
+                            <div class="route-details">
+                                <span><i class="fas fa-clock"></i>11h 45m</span>
+                                <span><i class="fas fa-calendar"></i>Tout les jours</span>
+                            </div>
+                        </div>
+                        <div class="route-features">
+                            <span class="feature-tag">Escale</span>
+                            <span class="feature-tag">Business</span>
+                        </div>
+                    </div>
+
+                    <div class="route-card" onclick="setQuickSearch('Dubai', 'Paris')">
+                        <div class="route-header">
+                            <div class="route-icon">
+                                <i class="fas fa-mosque"></i>
+                            </div>
+                            <div class="route-price">
+                                <div class="amount">380€</div>
+                                <div class="label">À partir de</div>
+                            </div>
+                        </div>
+                        <div class="route-info">
+                            <div class="route-path">Dubai → Paris</div>
+                            <div class="route-details">
+                                <span><i class="fas fa-clock"></i>7h 15m</span>
+                                <span><i class="fas fa-calendar"></i>Lun-Sam</span>
+                            </div>
+                        </div>
+                        <div class="route-features">
+                            <span class="feature-tag">Direct</span>
+                            <span class="feature-tag">Économique</span>
+                        </div>
+                    </div>
+
+                    <div class="route-card" onclick="setQuickSearch('Barcelone', 'Rome')">
+                        <div class="route-header">
+                            <div class="route-icon">
+                                <i class="fas fa-umbrella-beach"></i>
+                            </div>
+                            <div class="route-price">
+                                <div class="amount">120€</div>
+                                <div class="label">À partir de</div>
+                            </div>
+                        </div>
+                        <div class="route-info">
+                            <div class="route-path">Barcelone → Rome</div>
+                            <div class="route-details">
+                                <span><i class="fas fa-clock"></i>1h 45m</span>
+                                <span><i class="fas fa-calendar"></i>Tout les jours</span>
+                            </div>
+                        </div>
+                        <div class="route-features">
+                            <span class="feature-tag">Direct</span>
+                            <span class="feature-tag">Low-cost</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modern Search Form -->
+            <div class="search-form-modern">
+                <div class="search-tabs">
+                    <button class="search-tab active" data-type="roundtrip" onclick="setFlightType('roundtrip')">
+                        <i class="fas fa-exchange-alt"></i>
+                        Aller-retour
+                    </button>
+                    <button class="search-tab" data-type="oneway" onclick="setFlightType('oneway')">
+                        <i class="fas fa-arrow-right"></i>
+                        Aller simple
+                    </button>
+                    <button class="search-tab" data-type="multicity" onclick="setFlightType('multicity')">
+                        <i class="fas fa-route"></i>
+                        Multi-villes
+                    </button>
+                </div>
+
+                <div class="search-form-content">
+                    <form id="flightSearchForm">
+                        <div class="search-row">
+                            <div class="input-group-modern">
+                                <label for="departure">Départ</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-plane-departure"></i>
+                                    <input type="text" class="input-modern" id="departure" placeholder="Ville ou aéroport" autocomplete="off">
+                                </div>
+                                <div class="search-suggestions" id="departureSuggestions"></div>
+                            </div>
+
+                            <button type="button" class="swap-button-modern" onclick="swapLocations()">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+
+                            <div class="input-group-modern">
+                                <label for="destination">Destination</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-plane-arrival"></i>
+                                    <input type="text" class="input-modern" id="destination" placeholder="Ville ou aéroport" autocomplete="off">
+                                </div>
+                                <div class="search-suggestions" id="destinationSuggestions"></div>
+                            </div>
+                        </div>
+
+                        <div class="search-options">
+                            <div class="option-group">
+                                <div class="input-group-modern">
+                                    <label for="departureDate">Date de départ</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-calendar"></i>
+                                        <input type="date" class="input-modern" id="departureDate">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="option-group" id="returnDateContainer">
+                                <div class="input-group-modern">
+                                    <label for="returnDate">Date de retour</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-calendar-check"></i>
+                                        <input type="date" class="input-modern" id="returnDate">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="option-group">
+                                <div class="input-group-modern">
+                                    <label for="passengers">Passagers</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-users"></i>
+                                        <select class="input-modern" id="passengers">
+                                            <option value="1">1 passager</option>
+                                            <option value="2">2 passagers</option>
+                                            <option value="3">3 passagers</option>
+                                            <option value="4">4 passagers</option>
+                                            <option value="5+">5+ passagers</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="option-group">
+                                <div class="input-group-modern">
+                                    <label for="class">Classe</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-crown"></i>
+                                        <select class="input-modern" id="class">
+                                            <option value="economy">Économique</option>
+                                            <option value="premium">Premium</option>
+                                            <option value="business">Affaires</option>
+                                            <option value="first">Première</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="search-options">
+                            <div class="checkbox-modern">
+                                <input type="checkbox" id="directFlight">
+                                <label for="directFlight">Vol direct uniquement</label>
+                            </div>
+                            <div class="checkbox-modern">
+                                <input type="checkbox" id="flexibleDates">
+                                <label for="flexibleDates">Dates flexibles ±3 jours</label>
+                            </div>
+                        </div>
+
+                        <!-- Advanced Options -->
+                        <div class="advanced-panel" id="advancedOptions">
+                            <div class="advanced-grid">
+                                <div class="advanced-section">
+                                    <h4><i class="fas fa-euro-sign"></i> Fourchette de prix</h4>
+                                    <div class="price-range-modern">
+                                        <input type="number" class="price-input-modern" id="minPrice" placeholder="Min" min="0">
+                                        <span>-</span>
+                                        <input type="number" class="price-input-modern" id="maxPrice" placeholder="Max" min="0">
+                                    </div>
+                                </div>
+
+                                <div class="advanced-section">
+                                    <h4><i class="fas fa-plane"></i> Compagnies aériennes</h4>
+                                    <div class="airline-grid">
+                                        <div class="airline-item">
+                                            <input type="checkbox" id="airFrance" value="AF">
+                                            <label for="airFrance">Air France</label>
+                                        </div>
+                                        <div class="airline-item">
+                                            <input type="checkbox" id="britishAirways" value="BA">
+                                            <label for="britishAirways">British Airways</label>
+                                        </div>
+                                        <div class="airline-item">
+                                            <input type="checkbox" id="lufthansa" value="LH">
+                                            <label for="lufthansa">Lufthansa</label>
+                                        </div>
+                                        <div class="airline-item">
+                                            <input type="checkbox" id="emirates" value="EK">
+                                            <label for="emirates">Emirates</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="search-actions">
+                            <div class="search-tips-modern">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Conseil : Réservez 2 semaines à l'avance pour les meilleurs tarifs</span>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-outline-primary me-3" onclick="toggleAdvancedSearch()">
+                                    <i class="fas fa-sliders-h me-2"></i>
+                                    Options avancées
+                                </button>
+                                <button type="submit" class="search-button-modern">
+                                    <i class="fas fa-search"></i>
+                                    Rechercher des vols
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Results Section (Initially Hidden) -->
+            <div id="flightResults" style="display: none;">
+                <!-- Results will be dynamically inserted here -->
+            </div>
+        </section>
+
+        <!-- Booking Section -->
+        <section id="booking" class="content-section">
+            <div class="dashboard-card">
+                <h3 class="mb-4">Formulaire de réservation</h3>
+                <form id="bookingForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Vol</label>
+                            <select class="form-select" id="flightId" required>
+                                <option value="">Sélectionner un vol</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Nombre de places</label>
+                            <input type="number" class="form-control" id="seatsReserved" min="1" value="1" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Nom du passager</label>
+                            <input type="text" class="form-control" id="passengerName" placeholder="Nom complet" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Email du passager</label>
+                            <input type="email" class="form-control" id="passengerEmail" placeholder="email@example.com" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Téléphone</label>
+                            <input type="text" class="form-control" id="passengerPhone" placeholder="+33 6 00 00 00 00">
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-check me-2"></i>Confirmer la réservation
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Reservations Section -->
+        <section id="reservations" class="content-section">
+            <div class="dashboard-card">
+                <h3 class="mb-4">Mes réservations</h3>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Code réservation</th>
+                                <th>Vol</th>
+                                <th>Départ</th>
+                                <th>Destination</th>
+                                <th>Date</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Les réservations seront chargées dynamiquement depuis le backend API -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tracking Section -->
+        <section id="tracking" class="content-section">
+            <div class="dashboard-card">
+                <h3 class="mb-4">Suivi des vols</h3>
+                <div class="mb-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Entrez le numéro de vol" id="flightTrackingNumber">
+                        <button class="btn btn-primary" onclick="trackFlight()">
+                            <i class="fas fa-search me-2"></i>Suivre
+                        </button>
+                    </div>
+                </div>
+                <div id="trackingResults">
+                    <!-- Tracking results will be displayed here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile" class="content-section">
+            <div class="dashboard-card">
+                <h3 class="mb-4">Mon profil</h3>
+                <form id="profileForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Nom</label>
+                            <input type="text" class="form-control" id="profileLastName" value="Utilisateur">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Prénom</label>
+                            <input type="text" class="form-control" id="profileFirstName" value="Test">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="profileEmail" value="user@flighttracker.com">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Téléphone</label>
+                            <input type="tel" class="form-control" id="profilePhone" placeholder="+33 6 12 34 56 78">
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Enregistrer les modifications
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings" class="content-section">
+            <div class="dashboard-card">
+                <h3 class="mb-4">Paramètres</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Préférences de notification</h5>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                            <label class="form-check-label" for="emailNotifications">
+                                Notifications par email
+                            </label>
+                        </div>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="smsNotifications">
+                            <label class="form-check-label" for="smsNotifications">
+                                Notifications par SMS
+                            </label>
+                        </div>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="pushNotifications" checked>
+                            <label class="form-check-label" for="pushNotifications">
+                                Notifications push
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Préférences de langue</h5>
+                        <select class="form-select" id="language">
+                            <option value="fr" selected>Français</option>
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                            <option value="de">Deutsch</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom APIs -->
+    <script src="js/user-dashboard-apis.js"></script>
+    
+    <script>
+        // Global variables
+        let passengerCount = 1;
+        let currentSection = 'overview';
+
+        // Check authentication on page load
+        async function checkAuth() {
+            // Temporairement désactivé pour tests - à réactiver en production
+            console.log('Authentification temporairement désactivée pour tests');
+            await initializeDashboard();
+            
+            /*
+            fetch('../Backend/check-auth.php', {
+                credentials: 'include'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.authenticated) {
+                        showNotification('Veuillez vous connecter pour accéder à cette page', 'warning');
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 2000);
+                    } else {
+                        // User is authenticated, initialize dashboard
+                        console.log('Utilisateur authentifié:', data.user);
+                        initializeDashboard();
+                        // Store user data globally
+                        window.currentUser = data.user;
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur d\'authentification:', error);
+                    showNotification('Erreur de connexion à l\'authentification', 'danger');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 3000);
+                });
+            */
+        }
+
+        // Initialize dashboard
+        async function initializeDashboard() {
+            generateReservationCode();
+            setupEventListeners();
+            await loadUserData();
+            loadDashboardStats();
+            // updateReservationsCount will be called when loadReservations is executed
+        }
+
+        // Load user data (demo mode for now)
+        async function loadUserData() {
+            try {
+                // Auto-login with test user
+                const response = await fetch('../Backend/auto-login.php', {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    window.currentUser = {
+                        id: data.user.id,
+                        name: 'Utilisateur Test',
+                        email: data.user.email,
+                        role: data.user.role
+                    };
+                    console.log('Utilisateur connecté:', window.currentUser);
+                } else {
+                    console.error('Auto-login failed:', data.error);
+                    // Fallback to demo data
+                    window.currentUser = {
+                        id: 2,
+                        name: 'Utilisateur Test',
+                        email: 'user@flighttracker.com',
+                        role: 'user'
+                    };
+                }
+            } catch (error) {
+                console.error('Auto-login error:', error);
+                // Fallback to demo data
+                window.currentUser = {
+                    id: 2,
+                    name: 'Utilisateur Test',
+                    email: 'user@flighttracker.com',
+                    role: 'user'
+                };
+            }
+        }
+
+        // Show content section
+        function showSection(sectionId, linkElement) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            } else {
+                console.error('Section not found:', sectionId);
+                return;
+            }
+            
+            // Update active link
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            if (linkElement) {
+                linkElement.classList.add('active');
+            } else {
+                // Find link by href
+                const targetLink = document.querySelector(`.sidebar-link[href="#${sectionId}"]`);
+                if (targetLink) {
+                    targetLink.classList.add('active');
+                }
+            }
+            
+            currentSection = sectionId;
+            
+            // Load section-specific data
+            loadSectionData(sectionId);
+            
+            // Close mobile sidebar
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('mobile-open');
+            }
+        }
+
+        // Load section-specific data
+        function loadSectionData(sectionId) {
+            switch(sectionId) {
+                case 'overview':
+                    loadDashboardStats();
+                    break;
+                case 'search-flights':
+                    loadSearchData();
+                    break;
+                case 'search':
+                    loadSearchData();
+                    break;
+                case 'booking':
+                    loadBookingData();
+                    break;
+                case 'reservations':
+                    loadReservations();
+                    break;
+                case 'tracking':
+                    loadTrackingData();
+                    break;
+                case 'profile':
+                    loadProfileData();
+                    break;
+                case 'settings':
+                    loadSettings();
+                    break;
+                default:
+                    console.log('No specific data loading for section:', sectionId);
+                    break;
+            }
+        }
+
+        // Generate reservation code
+        function generateReservationCode() {
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const numbers = '0123456789';
+            let code = '';
+
+            for (let i = 0; i < 3; i++) {
+                code += letters.charAt(Math.floor(Math.random() * letters.length));
+            }
+            for (let i = 0; i < 3; i++) {
+                code += numbers.charAt(Math.floor(Math.random() * numbers.length));
+            }
+
+            // Only set value if element exists (removed in new form)
+            const reservationCodeElement = document.getElementById('reservationCode');
+            if (reservationCodeElement) {
+                reservationCodeElement.value = code;
+            }
+        }
+
+        // Add passenger to booking form
+        function addPassenger() {
+            passengerCount++;
+            const passengersForm = document.getElementById('passengersForm');
+            const newPassenger = document.createElement('div');
+            newPassenger.className = 'row mb-3';
+            newPassenger.innerHTML = `
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="Prénom" id="passenger${passengerCount}FirstName">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="Nom" id="passenger${passengerCount}LastName">
+                </div>
+                <div class="col-md-3">
+                    <input type="date" class="form-control" id="passenger${passengerCount}BirthDate">
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" id="passenger${passengerCount}Gender">
+                        <option value="">Sexe</option>
+                        <option value="M">Masculin</option>
+                        <option value="F">Féminin</option>
+                    </select>
+                </div>
+            `;
+            passengersForm.appendChild(newPassenger);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Flight search form
+            document.getElementById('flightSearchForm').addEventListener('submit', searchFlights);
+
+            // Booking form
+            document.getElementById('bookingForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                submitBooking();
+            });
+
+            // Profile form
+            document.getElementById('profileForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                updateProfile();
+            });
+        }
+
+        // Search flights
+        function searchFlights() {
+            const departure = document.getElementById('departure').value;
+            const destination = document.getElementById('destination').value;
+            const departureDate = document.getElementById('departureDate').value;
+            const returnDate = document.getElementById('returnDate').value;
+            const passengers = document.getElementById('passengers').value;
+            const flightClass = document.getElementById('class').value;
+            const flightType = document.querySelector('.type-btn.active').dataset.type;
+            const directFlight = document.getElementById('directFlight').checked;
+            const flexibleDates = document.getElementById('flexibleDates').checked;
+
+            if (!departure || !destination || !departureDate) {
+                showNotification('Veuillez remplir les champs obligatoires', 'warning');
+                return;
+            }
+
+            if (flightType === 'roundtrip' && !returnDate) {
+                showNotification('Veuillez sélectionner une date de retour', 'warning');
+                return;
+            }
+
+            showLoadingMessage('Recherche des vols en cours...');
+
+            const searchParams = {
+                departure,
+                destination,
+                departureDate,
+                returnDate,
+                passengers,
+                class: flightClass,
+                flightType,
+                directFlight,
+                flexibleDates
+            };
+
+            // Simulate API call
+            setTimeout(() => {
+                hideLoadingMessage();
+                showFlightResults(searchParams);
+            }, 2000);
+        }
+
+        // Quick search functions
+        function setQuickSearch(departure, destination) {
+            document.getElementById('departure').value = departure;
+            document.getElementById('destination').value = destination;
+            
+            // Set dates to today and next week
+            const today = new Date();
+            const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+            
+            document.getElementById('departureDate').value = today.toISOString().split('T')[0];
+            document.getElementById('returnDate').value = nextWeek.toISOString().split('T')[0];
+            
+            showNotification(`Recherche rapide configurée : ${departure} → ${destination}`, 'success');
+            
+            // Scroll to search form
+            document.querySelector('.search-form-container').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+        }
+
+        // Swap departure and destination
+        function swapLocations() {
+            const departure = document.getElementById('departure');
+            const destination = document.getElementById('destination');
+            
+            const temp = departure.value;
+            departure.value = destination.value;
+            destination.value = temp;
+            
+            showNotification('Départ et destination inversés', 'info');
+        }
+
+        // Set flight type
+        // Enhanced Flight Search Functions
+        let currentFlightType = 'roundtrip';
+        let selectedAirlines = [];
+
+        // Airport/City data for autocomplete
+        const airports = [
+            { code: 'CDG', name: 'Paris Charles de Gaulle', city: 'Paris', country: 'France' },
+            { code: 'ORY', name: 'Paris Orly', city: 'Paris', country: 'France' },
+            { code: 'LHR', name: 'London Heathrow', city: 'London', country: 'UK' },
+            { code: 'JFK', name: 'New York JFK', city: 'New York', country: 'USA' },
+            { code: 'LAX', name: 'Los Angeles International', city: 'Los Angeles', country: 'USA' },
+            { code: 'DXB', name: 'Dubai International', city: 'Dubai', country: 'UAE' },
+            { code: 'NRT', name: 'Tokyo Narita', city: 'Tokyo', country: 'Japan' },
+            { code: 'FCO', name: 'Rome Fiumicino', city: 'Rome', country: 'Italy' },
+            { code: 'BCN', name: 'Barcelona El Prat', city: 'Barcelona', country: 'Spain' },
+            { code: 'MAD', name: 'Madrid Barajas', city: 'Madrid', country: 'Spain' },
+            { code: 'AMS', name: 'Amsterdam Schiphol', city: 'Amsterdam', country: 'Netherlands' },
+            { code: 'FRA', name: 'Frankfurt Main', city: 'Frankfurt', country: 'Germany' },
+            { code: 'MUC', name: 'Munich International', city: 'Munich', country: 'Germany' },
+            { code: 'ZUR', name: 'Zurich Airport', city: 'Zurich', country: 'Switzerland' },
+            { code: 'BRU', name: 'Brussels Airport', city: 'Brussels', country: 'Belgium' }
+        ];
+
+        // Initialize autocomplete functionality
+        function initAutocomplete() {
+            const departureInput = document.getElementById('departure');
+            const destinationInput = document.getElementById('destination');
+            const departureSuggestions = document.getElementById('departureSuggestions');
+            const destinationSuggestions = document.getElementById('destinationSuggestions');
+
+            // Setup autocomplete for departure
+            departureInput.addEventListener('input', function() {
+                showSuggestions(this.value, departureSuggestions, departureInput);
+            });
+
+            // Setup autocomplete for destination
+            destinationInput.addEventListener('input', function() {
+                showSuggestions(this.value, destinationSuggestions, destinationInput);
+            });
+
+            // Hide suggestions when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!departureInput.contains(e.target) && !departureSuggestions.contains(e.target)) {
+                    departureSuggestions.classList.remove('active');
+                }
+                if (!destinationInput.contains(e.target) && !destinationSuggestions.contains(e.target)) {
+                    destinationSuggestions.classList.remove('active');
+                }
+            });
+        }
+
+        // Show airport suggestions
+        function showSuggestions(query, suggestionsContainer, inputElement) {
+            if (query.length < 2) {
+                suggestionsContainer.classList.remove('active');
+                return;
+            }
+
+            const filtered = airports.filter(airport => 
+                airport.city.toLowerCase().includes(query.toLowerCase()) ||
+                airport.name.toLowerCase().includes(query.toLowerCase()) ||
+                airport.code.toLowerCase().includes(query.toLowerCase())
+            );
+
+            if (filtered.length === 0) {
+                suggestionsContainer.classList.remove('active');
+                return;
+            }
+
+            suggestionsContainer.innerHTML = filtered.slice(0, 5).map(airport => `
+                <div class="suggestion-item" onclick="selectAirport('${airport.city} (${airport.code})', '${inputElement.id}')">
+                    <i class="fas fa-plane"></i>
+                    <div>
+                        <strong>${airport.city}</strong> (${airport.code})<br>
+                        <small>${airport.name}</small>
+                    </div>
+                </div>
+            `).join('');
+
+            suggestionsContainer.classList.add('active');
+        }
+
+        // Select airport from suggestions
+        function selectAirport(value, inputId) {
+            document.getElementById(inputId).value = value;
+            document.getElementById(inputId + 'Suggestions').classList.remove('active');
+        }
+
+        // Toggle advanced search options
+        function toggleAdvancedSearch() {
+            const advancedOptions = document.getElementById('advancedOptions');
+            const advancedIcon = document.getElementById('advancedIcon');
+            
+            advancedOptions.classList.toggle('active');
+            
+            if (advancedOptions.classList.contains('active')) {
+                advancedIcon.className = 'fas fa-chevron-up ms-2';
+            } else {
+                advancedIcon.className = 'fas fa-chevron-down ms-2';
+            }
+        }
+
+        // Enhanced flight type selection
+        function setFlightType(type) {
+            currentFlightType = type;
+            
+            // Update button states
+            document.querySelectorAll('.type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+            
+            // Show/hide return date based on flight type
+            const returnDateContainer = document.getElementById('returnDateContainer');
+            if (type === 'oneway') {
+                returnDateContainer.style.display = 'none';
+            } else {
+                returnDateContainer.style.display = 'block';
+            }
+            
+            // Add visual feedback
+            showNotification(`Type de vol : ${type === 'roundtrip' ? 'Aller-retour' : type === 'oneway' ? 'Aller simple' : 'Multi-villes'}`, 'info');
+        }
+
+        // Swap departure and destination
+        function swapLocations() {
+            const departureInput = document.getElementById('departure');
+            const destinationInput = document.getElementById('destination');
+            
+            const temp = departureInput.value;
+            departureInput.value = destinationInput.value;
+            destinationInput.value = temp;
+            
+            // Add animation effect
+            const swapBtn = document.querySelector('.swap-btn');
+            swapBtn.style.transform = 'rotate(180deg) scale(1.2)';
+            setTimeout(() => {
+                swapBtn.style.transform = 'rotate(0deg) scale(1)';
+            }, 300);
+        }
+
+        // Set quick search
+        function setQuickSearch(departure, destination) {
+            document.getElementById('departure').value = departure;
+            document.getElementById('destination').value = destination;
+            
+            // Set default dates
+            const today = new Date();
+            const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+            const returnDate = new Date(today.getTime() + 14 * 24 * 60 * 60 * 1000);
+            
+            document.getElementById('departureDate').value = nextWeek.toISOString().split('T')[0];
+            document.getElementById('returnDate').value = returnDate.toISOString().split('T')[0];
+            
+            // Visual feedback
+            showNotification(`Recherche rapide configurée : ${departure} → ${destination}`, 'success');
+            
+            // Smooth scroll to search form
+            document.querySelector('.search-form-container').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+        }
+
+        // Enhanced flight search with loading state
+        function searchFlights(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const searchParams = {
+                departure: document.getElementById('departure').value,
+                destination: document.getElementById('destination').value,
+                departureDate: document.getElementById('departureDate').value,
+                returnDate: document.getElementById('returnDate').value,
+                passengers: document.getElementById('passengers').value,
+                class: document.getElementById('class').value,
+                flightType: currentFlightType,
+                directFlight: document.getElementById('directFlight').checked,
+                flexibleDates: document.getElementById('flexibleDates').checked,
+                minPrice: document.getElementById('minPrice').value,
+                maxPrice: document.getElementById('maxPrice').value,
+                airlines: selectedAirlines
+            };
+            
+            // Validation
+            if (!searchParams.departure || !searchParams.destination) {
+                showNotification('Veuillez remplir les champs de départ et de destination', 'warning');
+                return;
+            }
+            
+            if (!searchParams.departureDate) {
+                showNotification('Veuillez sélectionner une date de départ', 'warning');
+                return;
+            }
+            
+            if (searchParams.flightType === 'roundtrip' && !searchParams.returnDate) {
+                showNotification('Veuillez sélectionner une date de retour', 'warning');
+                return;
+            }
+            
+            // Show loading state
+            const resultsContainer = document.getElementById('flightResults');
+            resultsContainer.style.display = 'block';
+            resultsContainer.innerHTML = `
+                <div class="search-loading">
+                    <div class="loading-spinner"></div>
+                    <h4>Recherche des vols en cours...</h4>
+                    <p>Nous cherchons les meilleures offres pour vous</p>
+                </div>
+            `;
+            
+            // Simulate API call
+            setTimeout(() => {
+                const flights = generateEnhancedMockFlights(searchParams);
+                displayEnhancedFlightResults(flights, searchParams);
+            }, 2000);
+        }
+
+        // Generate enhanced mock flight data
+        function generateEnhancedMockFlights(searchParams) {
+            const flights = [];
+            const airlines = [
+                { code: 'AF', name: 'Air France', logo: 'AF' },
+                { code: 'BA', name: 'British Airways', logo: 'BA' },
+                { code: 'LH', name: 'Lufthansa', logo: 'LH' },
+                { code: 'EK', name: 'Emirates', logo: 'EK' },
+                { code: 'QR', name: 'Qatar Airways', logo: 'QR' }
+            ];
+            
+            const times = ['08:00', '10:30', '14:15', '16:45', '18:20', '20:00', '22:30'];
+            
+            // Filter airlines based on selection
+            let filteredAirlines = airlines;
+            if (selectedAirlines.length > 0) {
+                filteredAirlines = airlines.filter(airline => selectedAirlines.includes(airline.code));
+            }
+            
+            for (let i = 0; i < 6; i++) {
+                const airline = filteredAirlines[Math.floor(Math.random() * filteredAirlines.length)];
+                const flightNumber = `${airline.code}${Math.floor(Math.random() * 9000) + 1000}`;
+                const departureTime = times[Math.floor(Math.random() * times.length)];
+                const arrivalTime = times[Math.floor(Math.random() * times.length)];
+                const basePrice = Math.floor(Math.random() * 500) + 200;
+                
+                // Apply class multiplier
+                const classMultiplier = {
+                    'economy': 1,
+                    'premium': 1.5,
+                    'business': 2.5,
+                    'first': 4
+                }[searchParams.class] || 1;
+                
+                const price = Math.floor(basePrice * classMultiplier);
+                
+                // Apply price filter
+                if (searchParams.minPrice && price < parseInt(searchParams.minPrice)) continue;
+                if (searchParams.maxPrice && price > parseInt(searchParams.maxPrice)) continue;
+                
+                flights.push({
+                    flightNumber,
+                    airline: airline.name,
+                    airlineCode: airline.code,
+                    departure: searchParams.departure,
+                    arrival: searchParams.destination,
+                    departureTime,
+                    arrivalTime,
+                    date: searchParams.departureDate,
+                    price,
+                    availableSeats: Math.floor(Math.random() * 50) + 10,
+                    duration: `${Math.floor(Math.random() * 3) + 1}h ${Math.floor(Math.random() * 60)}m`,
+                    direct: !searchParams.directFlight || Math.random() > 0.5,
+                    features: [
+                        Math.random() > 0.5 ? 'Wi-Fi' : null,
+                        Math.random() > 0.5 ? 'Repas inclus' : null,
+                        Math.random() > 0.7 ? 'Bagage prioritaire' : null
+                    ].filter(Boolean)
+                });
+            }
+            
+            return flights.sort((a, b) => a.price - b.price);
+        }
+
+        // Display enhanced flight results
+        function displayEnhancedFlightResults(flights, searchParams) {
+            const resultsContainer = document.getElementById('flightResults');
+            
+            if (flights.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <h4>Aucun vol trouvé</h4>
+                        <p>Essayez de modifier vos critères de recherche</p>
+                        <button class="btn btn-primary mt-3" onclick="clearSearch()">
+                            <i class="fas fa-redo me-2"></i>
+                            Nouvelle recherche
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            resultsContainer.innerHTML = `
+                <div class="dashboard-card">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4>
+                            <i class="fas fa-plane me-2"></i>
+                            ${flights.length} vol(s) trouvé(s)
+                        </h4>
+                        <div class="flight-features">
+                            <span class="feature-badge">
+                                <i class="fas fa-filter me-1"></i>
+                                ${searchParams.class === 'economy' ? 'Économique' : searchParams.class === 'premium' ? 'Premium' : searchParams.class === 'business' ? 'Affaires' : 'Première'}
+                            </span>
+                            ${searchParams.directFlight ? '<span class="feature-badge">Direct</span>' : ''}
+                        </div>
+                    </div>
+                    <div class="flight-results">
+                        ${flights.map(flight => `
+                            <div class="flight-result-card">
+                                <div class="flight-header">
+                                    <div class="flight-info">
+                                        <div class="airline-logo">${flight.airlineCode}</div>
+                                        <div>
+                                            <div class="fw-bold">${flight.airline}</div>
+                                            <div class="text-muted small">${flight.flightNumber}</div>
+                                        </div>
+                                    </div>
+                                    <div class="flight-price">
+                                        <div class="price-amount">${flight.price}€</div>
+                                        <div class="price-label">par passager</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flight-details">
+                                    <div class="flight-time">
+                                        <div class="time">${flight.departureTime}</div>
+                                        <div class="city">${flight.departure.split(' ')[0]}</div>
+                                    </div>
+                                    
+                                    <div class="flight-duration">
+                                        <i class="fas fa-plane"></i>
+                                        <span>${flight.duration}</span>
+                                        ${flight.direct ? '<br><small>Direct</small>' : '<br><small>Escale(s)</small>'}
+                                    </div>
+                                    
+                                    <div class="flight-time">
+                                        <div class="time">${flight.arrivalTime}</div>
+                                        <div class="city">${flight.arrival.split(' ')[0]}</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <div class="flight-features">
+                                        ${flight.features.map(feature => `
+                                            <span class="feature-badge">${feature}</span>
+                                        `).join('')}
+                                    </div>
+                                    <div class="flight-actions">
+                                        <span class="text-muted me-3">${flight.availableSeats} places</span>
+                                        <button class="select-flight-btn" onclick="selectFlight('${flight.flightNumber}', ${flight.price})">
+                                            Sélectionner
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            showNotification(`${flights.length} vol(s) trouvé(s)! Sélectionnez un vol pour continuer.`, 'info');
+        }
+
+        // Clear search
+        function clearSearch() {
+            document.getElementById('flightSearchForm').reset();
+            document.getElementById('flightResults').style.display = 'none';
+            document.getElementById('advancedOptions').classList.remove('active');
+            document.getElementById('advancedIcon').className = 'fas fa-chevron-down ms-2';
+        }
+
+        function setFlightType(type) {
+            // Update button states
+            document.querySelectorAll('.type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+            
+            // Show/hide return date based on flight type
+            const returnDateContainer = document.getElementById('returnDateContainer');
+            if (type === 'oneway') {
+                returnDateContainer.style.display = 'none';
+            } else {
+                returnDateContainer.style.display = 'block';
+            }
+            
+            showNotification(`Type de vol : ${type === 'roundtrip' ? 'Aller-retour' : type === 'oneway' ? 'Aller simple' : 'Multi-villes'}`, 'info');
+        }
+
+        // Submit booking
+        async function submitBooking() {
+            const flightId = document.getElementById('flightId')?.value;
+            const passengerName = document.getElementById('passengerName')?.value;
+            const passengerEmail = document.getElementById('passengerEmail')?.value;
+            const passengerPhone = document.getElementById('passengerPhone')?.value;
+            const seatsReserved = document.getElementById('seatsReserved')?.value || 1;
+
+            if (!flightId) {
+                showNotification('Veuillez sélectionner un vol', 'warning');
+                return;
+            }
+
+            if (!passengerName || !passengerEmail) {
+                showNotification('Veuillez remplir le nom et l\'email du passager', 'warning');
+                return;
+            }
+
+            // Show loading state
+            showLoadingMessage('Traitement de la réservation...');
+
+            try {
+                const data = {
+                    flight_id: flightId,
+                    passenger_name: passengerName,
+                    passenger_email: passengerEmail,
+                    passenger_phone: passengerPhone,
+                    seats_reserved: parseInt(seatsReserved),
+                    status: 'confirmed',
+                    payment_status: 'pending'
+                };
+
+                const response = await fetch('../Backend/api-reservations.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to create reservation');
+                }
+
+                hideLoadingMessage();
+
+                showNotification('Réservation créée avec succès!', 'success');
+
+                // Reset form
+                document.getElementById('bookingForm').reset();
+
+                // Reload reservations and update count
+                await loadReservations();
+
+                // Redirect to reservations section
+                showSection('reservations', document.querySelector('a[onclick*="reservations"]'));
+            } catch (error) {
+                hideLoadingMessage();
+                console.error('Error creating reservation:', error);
+                showNotification(error.message || 'Erreur lors de la création de la réservation', 'error');
+            }
+        }
+
+        // Save reservation to localStorage
+        function saveReservation(reservation) {
+            let reservations = JSON.parse(localStorage.getItem('userReservations') || '[]');
+            
+            // Check if reservation with same code already exists
+            const existingIndex = reservations.findIndex(r => r.code === reservation.code);
+            if (existingIndex !== -1) {
+                // Update existing reservation instead of adding duplicate
+                reservations[existingIndex] = reservation;
+                console.log('Réservation mise à jour:', reservation);
+            } else {
+                // Add new reservation
+                reservations.push(reservation);
+                console.log('Réservation sauvegardée:', reservation);
+            }
+            
+            localStorage.setItem('userReservations', JSON.stringify(reservations));
+        }
+
+        // Update reservations count in sidebar
+        function updateReservationsCount(count = 0) {
+            const badge = document.querySelector('.sidebar-badge');
+            if (badge) {
+                badge.textContent = count;
+            }
+
+            // Update dashboard stats
+            const confirmedBookingsElement = document.getElementById('confirmedBookings');
+            if (confirmedBookingsElement) {
+                confirmedBookingsElement.textContent = count;
+            }
+        }
+
+        // Track flight with OpenSky Network API using API manager
+        async function trackFlight() {
+            const flightNumber = document.getElementById('flightTrackingNumber').value.toUpperCase();
+
+            if (!flightNumber) {
+                showNotification('Veuillez entrer un numéro de vol', 'warning');
+                return;
+            }
+
+            showLoadingMessage('Recherche du vol...');
+
+            try {
+                // 1. D'abord, chercher dans la base de données locale
+                const localResponse = await fetch(`../Backend/api-flights.php?flight_number=${flightNumber}`);
+                const localData = await localResponse.json();
+
+                if (localData.flight) {
+                    hideLoadingMessage();
+                    // Si le vol est dans la base locale et vient d'OpenSky, afficher les données temps réel
+                    if (localData.flight.source === 'opensky') {
+                        displayLocalOpenSkyFlight(localData.flight);
+                        showNotification(`Vol ${flightNumber} trouvé dans la base de données (OpenSky)`, 'success');
+                    } else {
+                        displayLocalFlight(localData.flight);
+                        showNotification(`Vol ${flightNumber} trouvé dans la base de données`, 'success');
+                    }
+                    return;
+                }
+
+                // 2. Si pas trouvé localement, chercher dans OpenSky
+                showLoadingMessage('Recherche du vol en temps réel sur OpenSky...');
+                const flight = await window.flightTracker.searchFlight(flightNumber);
+
+                if (flight) {
+                    displayRealFlightData(flight);
+                } else {
+                    showNotification(`Vol ${flightNumber} non trouvé. Affichage des données de démonstration.`, 'info');
+                    displayFlightTracking(flightNumber);
+                }
+            } catch (error) {
+                console.error('Error tracking flight:', error);
+                hideLoadingMessage();
+                showNotification('Erreur lors de la recherche du vol', 'danger');
+                displayFlightTracking(flightNumber);
+            }
+        }
+
+        // Afficher un vol local (créé manuellement)
+        function displayLocalFlight(flight) {
+            const trackingResults = document.getElementById('trackingResults');
+
+            const statusBadge = {
+                scheduled: 'bg-success',
+                delayed: 'bg-warning',
+                cancelled: 'bg-danger',
+                completed: 'bg-secondary'
+            }[flight.status] || 'bg-secondary';
+
+            const statusText = {
+                scheduled: 'Programmé',
+                delayed: 'En retard',
+                cancelled: 'Annulé',
+                completed: 'Terminé'
+            }[flight.status] || flight.status;
+
+            trackingResults.innerHTML = `
+                <div class="card border-primary">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-plane me-2"></i>${flight.flight_number} - Base de données locale
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Informations générales</h6>
+                                <p><strong>Compagnie:</strong> ${flight.airline}</p>
+                                <p><strong>Statut:</strong> <span class="badge ${statusBadge}">${statusText}</span></p>
+                                <p><strong>Départ:</strong> ${flight.departure_city}</p>
+                                <p><strong>Arrivée:</strong> ${flight.arrival_city}</p>
+                                <p><strong>Prix:</strong> ${parseFloat(flight.price).toFixed(2)} €</p>
+                                <p><strong>Places disponibles:</strong> ${flight.available_seats}/${flight.total_seats}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Horaires</h6>
+                                <p><strong>Départ:</strong> ${new Date(flight.departure_time).toLocaleString('fr-FR')}</p>
+                                <p><strong>Arrivée:</strong> ${new Date(flight.arrival_time).toLocaleString('fr-FR')}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Afficher un vol local importé depuis OpenSky (avec données temps réel)
+        function displayLocalOpenSkyFlight(flight) {
+            const trackingResults = document.getElementById('trackingResults');
+
+            const statusBadge = {
+                scheduled: 'bg-success',
+                delayed: 'bg-warning',
+                cancelled: 'bg-danger',
+                completed: 'bg-secondary'
+            }[flight.status] || 'bg-secondary';
+
+            const statusText = {
+                scheduled: 'Programmé',
+                delayed: 'En retard',
+                cancelled: 'Annulé',
+                completed: 'Terminé'
+            }[flight.status] || flight.status;
+
+            // Déterminer le statut basé sur les données temps réel
+            const liveStatus = flight.on_ground ?
+                '<span class="badge bg-warning">Au sol</span>' :
+                flight.altitude > 1000 ?
+                '<span class="badge bg-success">En vol</span>' :
+                '<span class="badge bg-info">Décollage/Atterrissage</span>';
+
+            const speedKmh = flight.velocity ? Math.round(flight.velocity * 3.6) : 0;
+
+            trackingResults.innerHTML = `
+                <div class="card border-primary">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-satellite-dish me-2"></i>${flight.flight_number} - Données temps réel (Base locale)
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Informations générales</h6>
+                                <p><strong>Compagnie:</strong> ${flight.airline}</p>
+                                <p><strong>Statut (planifié):</strong> <span class="badge ${statusBadge}">${statusText}</span></p>
+                                <p><strong>Statut (temps réel):</strong> ${liveStatus}</p>
+                                <p><strong>Départ:</strong> ${flight.departure_city}</p>
+                                <p><strong>Arrivée:</strong> ${flight.arrival_city}</p>
+                                <p><strong>Prix:</strong> ${parseFloat(flight.price).toFixed(2)} €</p>
+                                <p><strong>Places disponibles:</strong> ${flight.available_seats}/${flight.total_seats}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Position et mouvement</h6>
+                                <p><strong>Position:</strong> ${flight.latitude || 'N/A'}, ${flight.longitude || 'N/A'}</p>
+                                <p><strong>Altitude:</strong> ${flight.altitude ? flight.altitude.toLocaleString() + ' m' : 'N/A'}</p>
+                                <p><strong>Vitesse:</strong> ${speedKmh} km/h</p>
+                                <p><strong>Cap:</strong> ${flight.heading || 'N/A'}°</p>
+                                <p><strong>Dernière mise à jour:</strong> ${flight.last_position_update ? new Date(flight.last_position_update).toLocaleString('fr-FR') : 'N/A'}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Display real flight data from API manager
+        function displayRealFlightData(flight) {
+            const trackingResults = document.getElementById('trackingResults');
+            
+            // Extract flight data from processed API response
+            const icao24 = flight.icao24 || 'N/A';
+            const callsign = flight.callsign || 'N/A';
+            const originCountry = flight.country || 'Inconnu';
+            const longitude = flight.longitude || 'N/A';
+            const latitude = flight.latitude || 'N/A';
+            const altitude = flight.altitude || 0;
+            const velocity = flight.velocity || 0;
+            const heading = flight.heading || 0;
+            const departure = flight.departure || { city: 'Inconnue', code: 'N/A' };
+            const destination = flight.destination || { city: 'Inconnue', code: 'N/A' };
+            
+            // Determine flight status based on altitude and onGround
+            const status = flight.onGround ? 
+                '<span class="badge bg-warning">Au sol</span>' : 
+                altitude > 1000 ? 
+                '<span class="badge bg-success">En vol</span>' : 
+                '<span class="badge bg-info">Décollage/Atterrissage</span>';
+            
+            // Calculate speed in km/h from m/s
+            const speedKmh = velocity ? Math.round(velocity * 3.6) : 0;
+            
+            trackingResults.innerHTML = `
+                <div class="card border-primary">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-plane me-2"></i>${callsign} - Données en temps réel
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Informations générales</h6>
+                                <p><strong>Appareil:</strong> ${icao24}</p>
+                                <p><strong>Pays d'origine:</strong> ${originCountry}</p>
+                                <p><strong>Statut:</strong> ${status}</p>
+                                <p><strong>Départ:</strong> ${departure.city} (${departure.code})</p>
+                                <p><strong>Destination:</strong> ${destination.city} (${destination.code})</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Position et mouvement</h6>
+                                <p><strong>Position:</strong> ${latitude}, ${longitude}</p>
+                                <p><strong>Altitude:</strong> ${altitude.toLocaleString()} m</p>
+                                <p><strong>Vitesse:</strong> ${speedKmh} km/h</p>
+                                <p><strong>Cap:</strong> ${heading}°</p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">
+                                        <i class="fas fa-clock me-1"></i>
+                                        Dernière mise à jour: ${new Date().toLocaleTimeString()}
+                                    </small>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="trackFlight()">
+                                        <i class="fas fa-sync-alt me-1"></i>Actualiser
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            hideLoadingMessage();
+            showNotification(`Vol ${callsign} trouvé en temps réel!`, 'success');
+        }
+
+        // Display flight tracking
+        function displayFlightTracking(flightNumber) {
+            const trackingResults = document.getElementById('trackingResults');
+            trackingResults.innerHTML = `
+                <div class="alert alert-info">
+                    <h5>Vol ${flightNumber}</h5>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <strong>Départ:</strong> Paris CDG<br>
+                            <strong>Heure:</strong> 14:30<br>
+                            <strong>Statut:</strong> <span class="badge bg-success">À l'heure</span>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Arrivée:</strong> New York JFK<br>
+                            <strong>Heure:</strong> 16:45<br>
+                            <strong>Porte:</strong> B23
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Update profile
+        function updateProfile() {
+            const lastName = document.getElementById('profileLastName').value;
+            const firstName = document.getElementById('profileFirstName').value;
+            const email = document.getElementById('profileEmail').value;
+            const phone = document.getElementById('profilePhone').value;
+
+            showLoadingMessage('Mise à jour du profil...');
+
+            setTimeout(() => {
+                hideLoadingMessage();
+                showNotification('Profil mis à jour avec succès!', 'success');
+            }, 1000);
+        }
+
+        // Load dashboard statistics
+        function loadDashboardStats() {
+            // Simulate real-time data
+            const stats = {
+                flightsSearched: Math.floor(Math.random() * 100) + 50,
+                activeBookings: Math.floor(Math.random() * 20) + 5,
+                upcomingFlights: Math.floor(Math.random() * 10) + 1,
+                totalPassengers: Math.floor(Math.random() * 30) + 10
+            };
+
+            updateDashboardCard('flightsSearched', stats.flightsSearched);
+            updateDashboardCard('confirmedBookings', stats.activeBookings);
+            updateDashboardCard('pendingFlights', stats.upcomingFlights);
+            updateDashboardCard('registeredPassengers', stats.totalPassengers);
+        }
+
+        // Update dashboard card with animation
+        function updateDashboardCard(elementId, value) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                const currentValue = parseInt(element.textContent);
+                const increment = (value - currentValue) / 20;
+                let step = 0;
+                
+                const timer = setInterval(() => {
+                    step++;
+                    const newValue = Math.round(currentValue + increment * step);
+                    element.textContent = newValue;
+                    
+                    if (step >= 20) {
+                        element.textContent = value;
+                        clearInterval(timer);
+                    }
+                }, 50);
+            }
+        }
+
+        // Load search data
+        function loadSearchData() {
+            // Populate popular destinations
+            const popularDestinations = [
+                { city: 'New York', code: 'JFK', country: 'USA' },
+                { city: 'Londres', code: 'LHR', country: 'UK' },
+                { city: 'Tokyo', code: 'NRT', country: 'Japon' },
+                { city: 'Dubai', code: 'DXB', country: 'UAE' },
+                { city: 'Paris', code: 'CDG', country: 'France' }
+            ];
+            
+            console.log('Search data loaded');
+        }
+
+        // Load booking data
+        async function loadBookingData() {
+            await loadFlightsForBooking();
+            console.log('Booking data loaded');
+        }
+
+        // Load flights for booking dropdown
+        async function loadFlightsForBooking() {
+            try {
+                const response = await fetch('../Backend/api-flights.php?limit=1000', {
+                    credentials: 'include'
+                });
+                if (!response.ok) throw new Error('Failed to load flights');
+                const data = await response.json();
+
+                const select = document.getElementById('flightId');
+                select.innerHTML = '<option value="">Sélectionner un vol</option>';
+                data.flights.forEach(flight => {
+                    if (flight.status === 'scheduled' || flight.status === 'delayed') {
+                        const option = document.createElement('option');
+                        option.value = flight.id;
+                        option.textContent = `${flight.flight_number} - ${flight.departure_city} → ${flight.arrival_city} (${flight.available_seats} places disponibles) - €${parseFloat(flight.price).toFixed(2)}`;
+                        select.appendChild(option);
+                    }
+                });
+            } catch (error) {
+                console.error('Error loading flights:', error);
+                showNotification('Erreur lors du chargement des vols', 'error');
+            }
+        }
+
+        // Load reservations from backend API
+        async function loadReservations() {
+            const tbody = document.querySelector('#reservations .table tbody');
+
+            if (!tbody) return;
+
+            try {
+                const response = await fetch('../Backend/api-reservations.php', {
+                    credentials: 'include'
+                });
+
+                if (!response.ok) throw new Error('Failed to load reservations');
+
+                const data = await response.json();
+                const reservations = data.reservations || [];
+
+                if (reservations.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="7" class="text-center py-4">
+                                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">Aucune réservation trouvée</p>
+                                <button class="btn btn-primary" onclick="event.preventDefault(); showSection('booking', this)">
+                                    <i class="fas fa-plus me-2"></i>Faire une réservation
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                tbody.innerHTML = reservations.map(reservation => {
+                    const statusBadge = getStatusBadge(reservation.status);
+                    const bookingDate = new Date(reservation.booking_date).toLocaleDateString('fr-FR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+
+                    return `
+                        <tr>
+                            <td><strong>${reservation.reservation_number}</strong></td>
+                            <td>
+                                <div><strong>${reservation.flight_number}</strong></div>
+                                <small class="text-muted">${reservation.airline}</small>
+                            </td>
+                            <td>${reservation.departure_city}</td>
+                            <td>${reservation.arrival_city}</td>
+                            <td>${bookingDate}</td>
+                            <td>${statusBadge}</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary me-1" onclick="viewReservation('${reservation.id}')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-warning me-1" onclick="editReservation('${reservation.id}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="cancelReservation('${reservation.id}')">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+                // Update sidebar badge
+                updateReservationsCount(reservations.length);
+
+                console.log('Réservations chargées depuis le backend:', reservations);
+            } catch (error) {
+                console.error('Error loading reservations:', error);
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center py-4">
+                            <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+                            <p class="text-danger">Erreur lors du chargement des réservations</p>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Get status badge HTML
+        function getStatusBadge(status) {
+            const badges = {
+                'confirmed': '<span class="badge bg-success">Confirmée</span>',
+                'pending': '<span class="badge bg-warning">En attente</span>',
+                'cancelled': '<span class="badge bg-danger">Annulée</span>'
+            };
+            return badges[status] || '<span class="badge bg-secondary">Inconnu</span>';
+        }
+
+        // Enhanced View reservation details
+        async function viewReservation(id) {
+            try {
+                const response = await fetch('../Backend/api-reservations.php', {
+                    credentials: 'include'
+                });
+
+                if (!response.ok) throw new Error('Failed to load reservations');
+
+                const data = await response.json();
+                const reservation = data.reservations.find(r => r.id == id);
+
+                if (!reservation) {
+                    alert('Réservation non trouvée');
+                    return;
+                }
+
+                const statusBadge = getStatusBadge(reservation.status);
+                const paymentBadge = getPaymentBadge(reservation.payment_status);
+                const bookingDate = new Date(reservation.booking_date).toLocaleString('fr-FR');
+                const departureTime = new Date(reservation.departure_time).toLocaleString('fr-FR');
+                const arrivalTime = new Date(reservation.arrival_time).toLocaleString('fr-FR');
+
+                const content = `
+                    <div class="reservation-details">
+                        <div class="detail-section">
+                            <h4><i class="fas fa-plane me-2"></i>Informations du vol</h4>
+                            <div class="detail-row">
+                                <span class="detail-label">Numéro de réservation</span>
+                                <span class="detail-value">${reservation.reservation_number}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Numéro de vol</span>
+                                <span class="detail-value">${reservation.flight_number}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Compagnie</span>
+                                <span class="detail-value">${reservation.airline}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Départ</span>
+                                <span class="detail-value">${reservation.departure_city}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Destination</span>
+                                <span class="detail-value">${reservation.arrival_city}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Date de départ</span>
+                                <span class="detail-value">${departureTime}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Date d'arrivée</span>
+                                <span class="detail-value">${arrivalTime}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Date de réservation</span>
+                                <span class="detail-value">${bookingDate}</span>
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <h4><i class="fas fa-user me-2"></i>Informations du passager</h4>
+                            <div class="detail-row">
+                                <span class="detail-label">Nom</span>
+                                <span class="detail-value">${reservation.passenger_name}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Email</span>
+                                <span class="detail-value">${reservation.passenger_email}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Téléphone</span>
+                                <span class="detail-value">${reservation.passenger_phone || 'Non spécifié'}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Nombre de places</span>
+                                <span class="detail-value">${reservation.seats_reserved}</span>
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <h4><i class="fas fa-info-circle me-2"></i>Statut et paiement</h4>
+                            <div class="detail-row">
+                                <span class="detail-label">Statut</span>
+                                <span class="detail-value">${statusBadge}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Statut paiement</span>
+                                <span class="detail-value">${paymentBadge}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Prix total</span>
+                                <span class="detail-value"><strong>€${parseFloat(reservation.total_price).toFixed(2)}</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                alert(content); // Simple alert for now - can be replaced with a modal
+            } catch (error) {
+                console.error('Error viewing reservation:', error);
+                alert('Erreur lors du chargement de la réservation');
+            }
+        }
+
+        // Get payment badge HTML
+        function getPaymentBadge(status) {
+            const badges = {
+                'paid': '<span class="badge bg-success">Payé</span>',
+                'pending': '<span class="badge bg-warning">En attente</span>',
+                'refunded': '<span class="badge bg-info">Remboursé</span>'
+            };
+            return badges[status] || '<span class="badge bg-secondary">Inconnu</span>';
+        }
+
+        // Enhanced Edit reservation
+        async function editReservation(id) {
+            alert('La modification des réservations depuis le dashboard utilisateur n\'est pas encore implémentée. Veuillez contacter le support.');
+            // TODO: Implement edit functionality using the API
+            // Similar to the admin dashboard editReservation function
+        }
+
+        // Edit reservation from view modal
+        function editReservationFromView() {
+            closeViewModal();
+            editReservation(window.currentReservationCode);
+        }
+
+        // Close view modal
+        function closeViewModal() {
+            document.getElementById('viewReservationModal').classList.remove('active');
+        }
+
+        // Close edit modal
+        function closeEditModal() {
+            document.getElementById('editReservationModal').classList.remove('active');
+        }
+
+        // Save reservation changes
+        function saveReservationChanges() {
+            const code = window.currentReservationCode;
+            const reservations = JSON.parse(localStorage.getItem('userReservations') || '[]');
+            const reservationIndex = reservations.findIndex(r => r.code === code);
+            
+            if (reservationIndex !== -1) {
+                // Update reservation
+                reservations[reservationIndex] = {
+                    ...reservations[reservationIndex],
+                    departure: document.getElementById('editDeparture').value,
+                    arrival: document.getElementById('editArrival').value,
+                    date: document.getElementById('editDate').value,
+                    class: document.getElementById('editClass').value,
+                    status: document.getElementById('editStatus').value,
+                    lastModified: new Date().toISOString()
+                };
+                
+                // Save to localStorage
+                localStorage.setItem('userReservations', JSON.stringify(reservations));
+                
+                // Close modal
+                closeEditModal();
+                
+                // Refresh reservations table
+                updateReservationsCount();
+                loadReservations();
+                
+                // Show success message
+                showNotification(`Réservation ${code} modifiée avec succès!`, 'success');
+            } else {
+                showNotification('Erreur lors de la modification', 'error');
+            }
+        }
+
+        // Cancel reservation
+        async function cancelReservation(id) {
+            if (!confirm('Êtes-vous sûr de vouloir annuler cette réservation ?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`../Backend/api-reservations.php?id=${id}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to cancel reservation');
+                }
+
+                loadReservations();
+                showNotification('Réservation annulée avec succès', 'success');
+            } catch (error) {
+                console.error('Error canceling reservation:', error);
+                showNotification('Erreur lors de l\'annulation de la réservation', 'error');
+            }
+        }
+
+        // Close modals when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-custom')) {
+                e.target.classList.remove('active');
+            }
+        });
+
+        // Close modals with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-custom.active').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+        });
+
+        // Load tracking data
+        function loadTrackingData() {
+            console.log('Tracking data loaded');
+        }
+
+        // Load profile data from authenticated user
+        function loadProfileData() {
+            if (window.currentUser) {
+                // Load real user data from authentication
+                const user = window.currentUser;
+                const names = user.name.split(' ');
+                const firstName = names[names.length - 1];
+                const lastName = names.slice(0, -1).join(' ');
+                
+                document.getElementById('profileLastName').value = lastName || user.name;
+                document.getElementById('profileFirstName').value = firstName || '';
+                document.getElementById('profileEmail').value = user.email || '';
+                document.getElementById('profilePhone').value = ''; // Phone not in auth data
+                
+                showNotification('Profil chargé avec succès', 'success');
+            } else {
+                // Fallback to demo data
+                const profileData = {
+                    lastName: 'Utilisateur',
+                    firstName: 'Test',
+                    email: 'user@flighttracker.com',
+                    phone: '+33 6 12 34 56 78'
+                };
+                
+                document.getElementById('profileLastName').value = profileData.lastName;
+                document.getElementById('profileFirstName').value = profileData.firstName;
+                document.getElementById('profileEmail').value = profileData.email;
+                document.getElementById('profilePhone').value = profileData.phone;
+            }
+        }
+
+        // Load settings
+        function loadSettings() {
+            // Load user preferences
+            console.log('Settings loaded');
+        }
+
+        // Show notifications
+        function showNotifications() {
+            showNotification('Vous avez 2 nouvelles notifications', 'info');
+        }
+
+        // Show user menu
+        function showUserMenu() {
+            showSection('profile', document.querySelector('.sidebar-link[href="#profile"]'));
+        }
+
+        // Show flight results
+        function showFlightResults(searchParams) {
+            const flightResults = generateMockFlights(searchParams);
+            displayFlightResults(flightResults);
+            showSection('search-flights'); // Stay on search flights section
+            showNotification(`${flightResults.length} vol(s) trouvé(s)! Sélectionnez un vol pour continuer.`, 'info');
+        }
+
+        // Generate mock flight data
+        function generateMockFlights(searchParams) {
+            const flights = [];
+            const airlines = ['AF', 'BA', 'LH', 'EK', 'QR'];
+            const times = ['08:00', '10:30', '14:15', '16:45', '18:20', '20:00'];
+            
+            for (let i = 0; i < 5; i++) {
+                const airline = airlines[Math.floor(Math.random() * airlines.length)];
+                const flightNumber = `${airline}${Math.floor(Math.random() * 9000) + 1000}`;
+                const departureTime = times[Math.floor(Math.random() * times.length)];
+                const arrivalTime = times[Math.floor(Math.random() * times.length)];
+                const price = Math.floor(Math.random() * 500) + 200;
+                
+                flights.push({
+                    flightNumber,
+                    departure: searchParams.departure,
+                    arrival: searchParams.destination,
+                    departureTime,
+                    arrivalTime,
+                    date: searchParams.departureDate,
+                    price,
+                    availableSeats: Math.floor(Math.random() * 50) + 10,
+                    airline: airline === 'AF' ? 'Air France' : airline === 'BA' ? 'British Airways' : airline === 'LH' ? 'Lufthansa' : airline === 'EK' ? 'Emirates' : 'Qatar Airways'
+                });
+            }
+            
+            return flights;
+        }
+
+        // Display flight results
+        function displayFlightResults(flights) {
+            const searchSection = document.getElementById('search-flights');
+            const existingResults = searchSection.querySelector('#flightResults');
+            
+            // Remove existing results if any
+            if (existingResults) {
+                existingResults.remove();
+            }
+            
+            const resultsHtml = `
+                <div id="flightResults" class="mt-4">
+                    <div class="dashboard-card">
+                        <h4 class="mb-4">
+                            <i class="fas fa-plane-departure me-2"></i>
+                            Résultats de recherche (${flights.length} vol(s) trouvé(s))
+                        </h4>
+                        <div class="row">
+                            ${flights.map((flight, index) => `
+                                <div class="col-md-6 mb-3">
+                                    <div class="card border-primary flight-card" data-flight="${flight.flightNumber}">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                                <div>
+                                                    <h6 class="card-title text-primary">
+                                                        <i class="fas fa-plane me-2"></i>${flight.flightNumber}
+                                                    </h6>
+                                                    <p class="text-muted mb-1">${flight.airline}</p>
+                                                </div>
+                                                <div class="text-end">
+                                                    <h5 class="text-primary mb-0">${flight.price}€</h5>
+                                                    <small class="text-muted">${flight.availableSeats} places</small>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row mb-3">
+                                                <div class="col-6">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="fas fa-plane-departure text-success me-2"></i>
+                                                        <div>
+                                                            <small class="text-muted">Départ</small>
+                                                            <div class="fw-bold">${flight.time}</div>
+                                                            <div>${searchSection.querySelector('#departure').value}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="fas fa-plane-arrival text-info me-2"></i>
+                                                        <div>
+                                                            <small class="text-muted">Arrivée</small>
+                                                            <div class="fw-bold">${flight.arrivalTime}</div>
+                                                            <div>${searchSection.querySelector('#destination').value}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <small class="text-muted">
+                                                    <i class="fas fa-clock me-1"></i>
+                                                    Durée: ${flight.duration}
+                                                </small>
+                                                <button class="btn btn-primary btn-sm" onclick="selectFlight('${flight.flightNumber}', '${flight.price}', '${flight.airline}')">
+                                                    <i class="fas fa-check me-1"></i>Sélectionner
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <button class="btn btn-outline-secondary me-2" onclick="clearFlightResults()">
+                                <i class="fas fa-times me-1"></i>Nouvelle recherche
+                            </button>
+                            <button class="btn btn-success" onclick="event.preventDefault(); showSection('booking', this)">
+                                <i class="fas fa-calendar-plus me-1"></i>Continuer vers réservation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Insert results after the search form
+            const searchForm = searchSection.querySelector('#flightSearchForm');
+            searchForm.insertAdjacentHTML('afterend', resultsHtml);
+            
+            // Add animation
+            setTimeout(() => {
+                const resultsContainer = document.getElementById('flightResults');
+                resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        // Select a flight
+        function selectFlight(flightNumber, price, airline) {
+            // Remove previous selection
+            document.querySelectorAll('.flight-card').forEach(card => {
+                card.classList.remove('border-success', 'bg-light');
+            });
+            
+            // Highlight selected flight
+            const selectedCard = document.querySelector(`[data-flight="${flightNumber}"]`);
+            if (selectedCard) {
+                selectedCard.classList.add('border-success', 'bg-light');
+            }
+            
+            // Update booking form
+            document.getElementById('flightNumber').value = `${flightNumber} - ${airline}`;
+            
+            showNotification(`Vol ${flightNumber} sélectionné! Prix: ${price}€`, 'success');
+            
+            // Scroll to booking button
+            setTimeout(() => {
+                document.querySelector('#flightResults .btn-success').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        }
+
+        // Clear flight results
+        function clearFlightResults() {
+            const resultsContainer = document.getElementById('flightResults');
+            if (resultsContainer) {
+                resultsContainer.remove();
+            }
+            document.getElementById('flightSearchForm').reset();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize dashboard on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            await checkAuth();
+            // updateReservationsCount will be called when loadReservations is executed
+            initAutocomplete();
+            initAirlineFilters();
+        });
+
+        // Initialize airline filters
+        function initAirlineFilters() {
+            const airlineCheckboxes = document.querySelectorAll('.airline-checkbox input');
+            airlineCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        selectedAirlines.push(this.value);
+                    } else {
+                        selectedAirlines = selectedAirlines.filter(airline => airline !== this.value);
+                    }
+                });
+            });
+        }
+
+        // Show loading message
+        function showLoadingMessage(message) {
+    // Remove any existing loading messages first
+    hideLoadingMessage();
+    
+    const loadingHtml = `
+        <div class="alert alert-info d-flex align-items-center loading-message" role="alert">
+            <div class="loading-spinner me-2"></div>
+            <div>${message}</div>
+        </div>
+    `;
+    
+    const activeSection = document.querySelector('.content-section.active');
+    const firstCard = activeSection.querySelector('.dashboard-card');
+    if (firstCard) {
+        firstCard.insertAdjacentHTML('afterbegin', loadingHtml);
+    }
+}
+
+// Hide loading message
+function hideLoadingMessage() {
+    const loadingMessages = document.querySelectorAll('.loading-message');
+    loadingMessages.forEach(message => {
+        message.remove();
+    });
+}
+
+// Show notification
+function showNotification(message, type = 'info') {
+    const notificationHtml = `
+        <div class="alert alert-${type} alert-dismissible fade show position-fixed top-0 end-0 m-3" style="z-index: 9999;" role="alert">
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', notificationHtml);
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+        const notification = document.querySelector('.alert:last-of-type');
+        if (notification) {
+            notification.remove();
+        }
+    }, 5000);
+}
+
+// Logout with backend integration
+function logout() {
+    if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
+        showLoadingMessage('Déconnexion en cours...');
+        
+        fetch('../Backend/logout.php', {
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .then(data => {
+                hideLoadingMessage();
+                if (data.success) {
+                    showNotification('Déconnexion réussie', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+                } else {
+                    showNotification('Erreur lors de la déconnexion', 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur de déconnexion:', error);
+                hideLoadingMessage();
+                showNotification('Erreur de connexion', 'danger');
+                // Force redirect anyway
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            });
+    }
+}
+
+// Mobile menu toggle
+function toggleMobileSidebar() {
+    document.getElementById('sidebar').classList.toggle('mobile-open');
+}
+
+// Handle window resize
+window.addEventListener('resize', function() {
+    if (window.innerWidth > 768) {
+        document.getElementById('sidebar').classList.remove('mobile-open');
+    }
+});
+
+    </script>
+
+    <!-- View Reservation Modal -->
+    <div class="modal-custom" id="viewReservationModal">
+        <div class="modal-content-custom">
+            <div class="modal-header-custom">
+                <h3><i class="fas fa-eye me-2"></i>Détails de la Réservation</h3>
+                <button class="modal-close" onclick="closeViewModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body-custom" id="viewReservationContent">
+                <!-- Content will be dynamically inserted -->
+            </div>
+            <div class="modal-footer-custom">
+                <button class="btn-custom btn-secondary-custom" onclick="closeViewModal()">
+                    <i class="fas fa-times me-2"></i>Fermer
+                </button>
+                <button class="btn-custom btn-primary-custom" onclick="editReservationFromView()">
+                    <i class="fas fa-edit me-2"></i>Modifier
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Reservation Modal -->
+    <div class="modal-custom" id="editReservationModal">
+        <div class="modal-content-custom">
+            <div class="modal-header-custom">
+                <h3><i class="fas fa-edit me-2"></i>Modifier la Réservation</h3>
+                <button class="modal-close" onclick="closeEditModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body-custom">
+                <form id="editReservationForm">
+                    <div class="edit-form-group">
+                        <label for="editFlightNumber">Numéro de vol</label>
+                        <input type="text" class="edit-form-control" id="editFlightNumber" readonly>
+                    </div>
+                    <div class="edit-form-group">
+                        <label for="editDeparture">Départ</label>
+                        <input type="text" class="edit-form-control" id="editDeparture">
+                    </div>
+                    <div class="edit-form-group">
+                        <label for="editArrival">Destination</label>
+                        <input type="text" class="edit-form-control" id="editArrival">
+                    </div>
+                    <div class="edit-form-group">
+                        <label for="editDate">Date</label>
+                        <input type="date" class="edit-form-control" id="editDate">
+                    </div>
+                    <div class="edit-form-group">
+                        <label for="editClass">Classe</label>
+                        <select class="edit-form-control" id="editClass">
+                            <option value="economy">Économique</option>
+                            <option value="premium">Premium</option>
+                            <option value="business">Affaires</option>
+                            <option value="first">Première</option>
+                        </select>
+                    </div>
+                    <div class="edit-form-group">
+                        <label for="editStatus">Statut</label>
+                        <select class="edit-form-control" id="editStatus">
+                            <option value="Confirmé">Confirmé</option>
+                            <option value="En attente">En attente</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer-custom">
+                <button class="btn-custom btn-secondary-custom" onclick="closeEditModal()">
+                    <i class="fas fa-times me-2"></i>Annuler
+                </button>
+                <button class="btn-custom btn-primary-custom" onclick="saveReservationChanges()">
+                    <i class="fas fa-save me-2"></i>Enregistrer
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
